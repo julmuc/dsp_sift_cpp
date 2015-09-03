@@ -39,7 +39,18 @@ namespace dspsift_helperlib
 	**/
 	void DSP_SIFT(IplImage* i_image, dspOptions i_opt, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
 
-
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Sample scales around detection
+	**
+	** @param i_DATAframes input features 
+	** @param i_nframes total number of features
+	** @param i_opt scale options
+	** @param const cv::Mat &o_sampledfeatureMat const as matrix dimension do not change, (data values surely do!)
+	** 
+	** @return todo
+	**/
+	void sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, const cv::Mat &o_sampledfeatureMat);
 
 
 } 

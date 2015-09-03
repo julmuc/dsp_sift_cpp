@@ -8,7 +8,7 @@
 /************************************************** Includes *********************************************************/
 
 #include "vlfeat_helperlib.h"
-
+#include <iostream>
 /******************************************** Function Definitions ***************************************************/
 
 void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes)
@@ -16,12 +16,20 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
     //Take IplImage -> convert to SINGLE (float):
     float* frame = (float*)malloc(i_image->height*i_image->width*sizeof(float));
     uchar* Ldata = (uchar*)i_image->imageData;
- 
-    for(int i=0; i<i_image->height; i++)
+	int ws = i_image->widthStep;
+	int chns = i_image->nChannels;
+	std::cout << "widthStep: " <<i_image->widthStep << std::endl;
+	std::cout << "channels: " <<i_image->nChannels << std::endl;
+    
+	int imHeight, imWidth;
+	imHeight = i_image->height;
+	imWidth = i_image->width;
+
+	for(int i=0; i<imHeight; i++)
 	{
-        for(int j=0; j<i_image->width; j++)
+        for(int j=0; j<imWidth; j++)
 		{
-            frame[j*i_image->height+i*i_image->nChannels] = (float)Ldata[i*i_image->widthStep+j*i_image->nChannels];
+            frame[j*imHeight+i*chns] = (float)Ldata[i*ws+j*chns];
 		}
 	}
  
@@ -183,7 +191,7 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 				vl_sift_pix rbuf[128];
 
 				/* compute descriptor (if necessary) */
-				vl_sift_calc_keypoint_descriptor(filt, buf, k, angles [q]);
+				vl_sift_calc_keypoint_descriptor(filt, buf, k, angles[q]);
 				vlfeat_helperlib::transpose_descriptor(rbuf, buf);
 
 				/* make enough room for all these keypoints and more */
