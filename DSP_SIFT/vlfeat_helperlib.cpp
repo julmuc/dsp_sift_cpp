@@ -209,6 +209,17 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 				frames[4*(*o_nframes) + 2] = k->sigma;
 				frames[4*(*o_nframes) + 3] = VL_PI/2 - angles[q];
 
+				/*************************** DEBUG *******************/
+				if(*o_nframes < 5)
+				{	
+					std::cout << "feature point: " << *o_nframes << std::endl;
+					std::cout << "x: " << frames[4*(*o_nframes) + 0] << std::endl;
+					std::cout << "y: " << frames[4*(*o_nframes) + 1] << std::endl;
+					std::cout << "sigma: " << frames[4*(*o_nframes) + 2] << std::endl;
+					std::cout << "angle: " << frames[4*(*o_nframes) + 3] << "\n" << std::endl;
+				}
+				/*************************** DEBUG *******************/
+
 				for(j=0; j<128; ++j)
 				{
 					float x = 512.0F * rbuf[j];

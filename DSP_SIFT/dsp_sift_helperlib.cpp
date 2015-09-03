@@ -7,7 +7,7 @@
 
 /************************************************** Includes *********************************************************/
 #include "dsp_sift_helperlib.h"
-
+#include <iostream>
 
 /******************************************** Function Definitions ***************************************************/
 
@@ -23,6 +23,10 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
     double* siftFrames = (double*)calloc(4*10000, sizeof(double));
     vl_uint8* siftDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
 	
+	o_DATAframes = (double*)calloc(4*10000, sizeof(double));
+    o_DATAdescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
+
+
 	// stores number of features(frames)
     int nframes = 0;
 	
@@ -48,7 +52,7 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	int dimFeature = 4;
 
 	cv::Mat featureMat;
-	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_32F);	// 4x(ns*nf) matrix
+	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);	// 4x(ns*nf) matrix
 
 	sampleScales(siftFrames,&nframes,i_opt,featureMat);
 
@@ -64,37 +68,69 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	// todo
 
 
+	//tmp return values
+	o_DATAframes = (double*)realloc(o_DATAframes, 4*sizeof(double)*nframes);
+    o_DATAdescr  = (vl_uint8*)realloc(o_DATAdescr, 128*sizeof(vl_uint8)*nframes);
+
+	*o_nframes = nframes;
 
 	return;
 }
 
-void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, const cv::Mat &o_sampledfeatureMat)
+void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat)
 {	
 	// generate linear spaced scales
-	double current_scale, scale_diff;
-	scale_diff = (i_opt.sc_max - i_opt.sc_min)/(i_opt.ns - 1);
+	double scale_diff;
+	int scale_counter = 0;
+	int feature_batch_counter = 0;
+	std::vector<double> scales(i_opt.ns);
 
+	scale_diff = (i_opt.sc_max - i_opt.sc_min)/(i_opt.ns - 1);
 	for(int scale_iter=0; scale_iter<i_opt.ns; scale_iter++)
 	{
-		current_scale = i_opt.sc_min + scale_iter * scale_diff;
-		
-		// fill sampledfeatureMat
-		for(int row_iter=0; row_iter<o_sampledfeatureMat.rows; row_iter++)
-		{
-			const double* Mat_row = o_sampledfeatureMat.ptr<double>(row_iter);
-			for(int col_iter=0; col_iter<o_sampledfeatureMat.cols; col_iter++)
+		scales.at(scale_iter) = i_opt.sc_min + scale_iter * scale_diff;
+	}
+
+	// fill sampledfeatureMat
+	for(int row_iter=0; row_iter<o_sampledfeatureMat.rows; row_iter++)
+	{
+		double* Mat_row = o_sampledfeatureMat.ptr<double>(row_iter);
+		for(int col_iter=0; col_iter<o_sampledfeatureMat.cols; col_iter++)
+		{	
+			if(row_iter != 2)
 			{	
-				if(row_iter != 2)
+				Mat_row[col_iter] = i_DATAframes[4*(col_iter%(*i_nframes))+row_iter];
+			}
+			else
+			{
+				Mat_row[col_iter] = scales.at(scale_counter) * i_DATAframes[4*(col_iter%(*i_nframes))+row_iter];
+				feature_batch_counter++;
+				if(feature_batch_counter >= *i_nframes)
 				{
-					o_sampledfeatureMat.data[(int)Mat_row[col_iter]] = i_DATAframes[4*(*i_nframes)*scale_iter+col_iter+row_iter];
-				}
-				else
-				{
-					o_sampledfeatureMat.data[(int)Mat_row[col_iter]] = current_scale * i_DATAframes[4*(*i_nframes)*scale_iter+col_iter+row_iter];
+					feature_batch_counter = 0;
+					scale_counter++;
 				}
 			}
 		}
 	}
+	
+	/*************************** DEBUG *******************/
+	for(int c=0; c<5; c++)
+	{
+		std::cout << "feature: " << c << std::endl;
+		for(int r=0; r<4; r++)
+		{	
+			if(r==0)
+				std::cout << "x: " << o_sampledfeatureMat.at<double>(r,c) << std::endl;
+			else if(r==1)
+				std::cout << "y: " <<  o_sampledfeatureMat.at<double>(r,c) << std::endl;
+			else if(r==2)
+				std::cout << "sigma: " <<  o_sampledfeatureMat.at<double>(r,c) << std::endl;			// needs to be different, as its now scaled accordingly!
+			else if(r==3)
+				std::cout << "angle: " <<  o_sampledfeatureMat.at<double>(r,c) << "\n" << std::endl;
+		}
+	}
+	/*************************** DEBUG *******************/
 
 	return;
 }

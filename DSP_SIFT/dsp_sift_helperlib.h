@@ -46,11 +46,11 @@ namespace dspsift_helperlib
 	** @param i_DATAframes input features 
 	** @param i_nframes total number of features
 	** @param i_opt scale options
-	** @param const cv::Mat &o_sampledfeatureMat const as matrix dimension do not change, (data values surely do!)
+	** @param const cv::Mat &o_sampledfeatureMat const as matrix dimension do not change, (data values surely do!) //TODO CHANGE
 	** 
 	** @return todo
 	**/
-	void sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, const cv::Mat &o_sampledfeatureMat);
+	void sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
 
 
 } 

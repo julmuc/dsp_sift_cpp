@@ -7,6 +7,7 @@
 
 /************************************************** Includes *********************************************************/
 #include "vlfeat_helperlib.h"
+#include "dsp_sift_helperlib.h"
 
 #include <opencv2\core\core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -15,7 +16,13 @@
 /**************************************************** Main ***********************************************************/
 
 int main(int argc, char** argv)
-{
+{	
+	// set dsp options
+	dspsift_helperlib::dspOptions dsp_opt;
+	dsp_opt.ns = 10;
+	dsp_opt.sc_max = 2.0f;
+	dsp_opt.sc_min = 0.5f;
+
 	// load template image:
 	// needs to be grayscale image
     IplImage* Timage = cvLoadImage("C:/Users/Julian/Documents/Visual Studio 2010/Projects/DSP_SIFT/Debug/Lena.png",0);
@@ -28,8 +35,11 @@ int main(int argc, char** argv)
     int Tnframes = 0;
 	
 	// call sift
-    vlfeat_helperlib::VLSIFT(Timage, TDescr, TFrames, &Tnframes);
+   // vlfeat_helperlib::VLSIFT(Timage, TDescr, TFrames, &Tnframes);
 	
+	// call dsp_sift
+	dspsift_helperlib::DSP_SIFT(Timage,dsp_opt,TDescr,TFrames,&Tnframes);
+
 	// reallocate memory block (in case to much space allocated before) 
     TFrames = (double*)realloc(TFrames, 4*sizeof(double)*Tnframes); // = Y X Scale Angle
     TDescr = (vl_uint8*)realloc(TDescr, 128*sizeof(vl_uint8)*Tnframes);
