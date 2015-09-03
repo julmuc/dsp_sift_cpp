@@ -62,7 +62,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dsp_sift_helperlib.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="vlfeat_helperlib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dsp_sift_helperlib.h" />
+    <ClInclude Include="vlfeat_helperlib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

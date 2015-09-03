@@ -1,21 +1,17 @@
-﻿Der Buildvorgang wurde am 02.09.2015 14:23:03 gestartet.
-     1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", build Ziel(e).
+﻿Der Buildvorgang wurde am 03.09.2015 13:42:25 gestartet.
+     1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", build Ziel(e).
      1>InitializeBuildStatus:
-         Aktualisieren des Timestamps von "Release\DSP_SIFT.unsuccessfulbuild".
+         "Release\DSP_SIFT.unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
        ClCompile:
          Alle Ausgaben sind aktuell.
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\Release\DSP_SIFT.exe" /NOLOGO /LIBPATH:C:\opencv\build\x86\vc10\lib /LIBPATH:"C:\vlfeat-0.9.20\bin\win32" opencv_calib3d2411.lib opencv_contrib2411.lib opencv_core2411.lib opencv_features2d2411.lib opencv_flann2411.lib opencv_gpu2411.lib opencv_highgui2411.lib opencv_imgproc2411.lib opencv_legacy2411.lib opencv_ml2411.lib opencv_nonfree2411.lib opencv_objdetect2411.lib opencv_ocl2411.lib opencv_photo2411.lib opencv_stitching2411.lib opencv_superres2411.lib opencv_ts2411.lib opencv_video2411.lib opencv_videostab2411.lib vl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\DSP_SIFT.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\Release\DSP_SIFT.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\Release\DSP_SIFT.lib" /MACHINE:X86 Release\main.obj
-         Code wird generiert.
-         Codegenerierung ist abgeschlossen.
-         DSP_SIFT.vcxproj -> C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\Release\DSP_SIFT.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\Release\DSP_SIFT.exe;#1" /manifest Release\DSP_SIFT.exe.intermediate.manifest
+         Alle Ausgaben sind aktuell.
+         DSP_SIFT.vcxproj -> C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.exe
        FinalizeBuildStatus:
          Die Datei "Release\DSP_SIFT.unsuccessfulbuild" wird gelöscht.
          Aktualisieren des Timestamps von "Release\DSP_SIFT.lastbuildstate".
-     1>Die Erstellung des Projekts "C:\Users\Julian\Documents\Visual Studio 2010\Projects\DSP_SIFT\DSP_SIFT\DSP_SIFT.vcxproj" ist abgeschlossen, build Ziel(e).
+     1>Die Erstellung des Projekts "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" ist abgeschlossen, build Ziel(e).
 
 Das Erstellen war erfolgreich.
 
-Verstrichene Zeit 00:00:01.54
+Verstrichene Zeit 00:00:00.19
