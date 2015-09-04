@@ -8,6 +8,8 @@
 #ifndef VLFEATHELPERLIB_H
 #define VLFEATHELPERLIB_H
 
+//#define NDEBUG	// define for no debug messages
+
 /************************************************** Includes *********************************************************/
 extern "C" {
 #include <vl/generic.h>
@@ -16,6 +18,7 @@ extern "C" {
 }
 
 #include <opencv2\core\core.hpp>
+#include "debug_helper.h"
 
 /************************************************** Structures *******************************************************/
 

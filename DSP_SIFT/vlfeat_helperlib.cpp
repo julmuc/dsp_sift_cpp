@@ -8,7 +8,7 @@
 /************************************************** Includes *********************************************************/
 
 #include "vlfeat_helperlib.h"
-#include <iostream>
+
 /******************************************** Function Definitions ***************************************************/
 
 void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes)
@@ -18,8 +18,8 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
     uchar* Ldata = (uchar*)i_image->imageData;
 	int ws = i_image->widthStep;
 	int chns = i_image->nChannels;
-	std::cout << "widthStep: " <<i_image->widthStep << std::endl;
-	std::cout << "channels: " <<i_image->nChannels << std::endl;
+	//std::cout << "widthStep: " <<i_image->widthStep << std::endl;
+	//std::cout << "channels: " <<i_image->nChannels << std::endl;
     
 	int imHeight, imWidth;
 	imHeight = i_image->height;
@@ -212,11 +212,12 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 				/*************************** DEBUG *******************/
 				if(*o_nframes < 5)
 				{	
-					std::cout << "feature point: " << *o_nframes << std::endl;
-					std::cout << "x: " << frames[4*(*o_nframes) + 0] << std::endl;
-					std::cout << "y: " << frames[4*(*o_nframes) + 1] << std::endl;
-					std::cout << "sigma: " << frames[4*(*o_nframes) + 2] << std::endl;
-					std::cout << "angle: " << frames[4*(*o_nframes) + 3] << "\n" << std::endl;
+					debug(*o_nframes);
+					debug(frames[4*(*o_nframes) + 0]);
+					debug(frames[4*(*o_nframes) + 1]);
+					debug(frames[4*(*o_nframes) + 2]);
+					debug(frames[4*(*o_nframes) + 3]);
+
 				}
 				/*************************** DEBUG *******************/
 

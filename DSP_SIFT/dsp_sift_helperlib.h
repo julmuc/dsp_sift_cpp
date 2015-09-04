@@ -8,9 +8,12 @@
 #ifndef DSPSIFTHELPERLIB_H
 #define DSPSIFTHELPERLIB_H
 
+//#define NDEBUG	// define for no debug messages
+
 /************************************************** Includes *********************************************************/
 #include <opencv2\core\core.hpp>
 #include "vlfeat_helperlib.h"
+#include "debug_helper.h"
 
 /************************************************** Structures *******************************************************/
 

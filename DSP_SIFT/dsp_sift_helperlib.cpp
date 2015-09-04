@@ -7,7 +7,6 @@
 
 /************************************************** Includes *********************************************************/
 #include "dsp_sift_helperlib.h"
-#include <iostream>
 
 /******************************************** Function Definitions ***************************************************/
 
@@ -38,21 +37,10 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
     siftDescr = (vl_uint8*)realloc(siftDescr, 128*sizeof(vl_uint8)*nframes);
 
 	//-------------------------------------- Sample scales around detection -----------------------------------------//
-	// Eingabedaten: Anzahl der Merkmalspunkte, Merkmalspunkte(4 Dimensionen Vector)
-	
-	// Verarbeitungsschritt
-	// Glätte die Region um jeden extrahierten Merkmalspunkt für "ns" verschiedene Skalierungen,
-	// das ergibt "ns" mal die Anzahl der Eingangsmerkmalspunkte
-	// Jeder Merkmalspunkt hat 4 Dimensionen ->
-	// Ausgabedaten: Array/Matrix der Größe 4 * num_features * num_scales(== ns)
-	// Die 3. Dimension gibt dann jeweils die skalierten Merkmalspunkte an
-
-
-	// todo
 	int dimFeature = 4;
 
 	cv::Mat featureMat;
-	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);	// 4x(ns*nf) matrix
+	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);	// 4x(ns*nf) double matrix
 
 	sampleScales(siftFrames,&nframes,i_opt,featureMat);
 
@@ -79,6 +67,18 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 
 void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat)
 {	
+	/******
+	Eingabedaten: Anzahl der Merkmalspunkte, Merkmalspunkte(4 Dimensionen Vector), Anzahl & Range Skalierungen
+	
+	Verarbeitungsschritt
+	Glätte die Region um jeden extrahierten Merkmalspunkt für "ns" verschiedene Skalierungen,
+	das ergibt "ns" mal die Anzahl der Eingangsmerkmalspunkte
+	Jeder Merkmalspunkt hat 4 Dimensionen
+	
+	Ausgabedaten: Array/Matrix der Größe 4 * num_features * num_scales
+	******/
+
+
 	// generate linear spaced scales
 	double scale_diff;
 	int scale_counter = 0;
@@ -117,17 +117,10 @@ void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOp
 	/*************************** DEBUG *******************/
 	for(int c=0; c<5; c++)
 	{
-		std::cout << "feature: " << c << std::endl;
+		debug(c);
 		for(int r=0; r<4; r++)
 		{	
-			if(r==0)
-				std::cout << "x: " << o_sampledfeatureMat.at<double>(r,c) << std::endl;
-			else if(r==1)
-				std::cout << "y: " <<  o_sampledfeatureMat.at<double>(r,c) << std::endl;
-			else if(r==2)
-				std::cout << "sigma: " <<  o_sampledfeatureMat.at<double>(r,c) << std::endl;			// needs to be different, as its now scaled accordingly!
-			else if(r==3)
-				std::cout << "angle: " <<  o_sampledfeatureMat.at<double>(r,c) << "\n" << std::endl;
+			debug(o_sampledfeatureMat.at<double>(r,c));
 		}
 	}
 	/*************************** DEBUG *******************/

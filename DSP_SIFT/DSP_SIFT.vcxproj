@@ -67,6 +67,7 @@
     <ClCompile Include="vlfeat_helperlib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="debug_helper.h" />
     <ClInclude Include="dsp_sift_helperlib.h" />
     <ClInclude Include="vlfeat_helperlib.h" />
   </ItemGroup>
