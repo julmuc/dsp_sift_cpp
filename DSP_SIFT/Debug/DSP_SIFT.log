@@ -1,11 +1,11 @@
-﻿Der Buildvorgang wurde am 04.09.2015 15:54:35 gestartet.
+﻿Der Buildvorgang wurde am 04.09.2015 21:43:49 gestartet.
      1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", rebuild Ziel(e).
      1>_PrepareForClean:
          Die Datei "Debug\DSP_SIFT.lastbuildstate" wird gelöscht.
        InitializeBuildStatus:
-         "Debug\DSP_SIFT.unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
+         Aktualisieren des Timestamps von "Debug\DSP_SIFT.unsuccessfulbuild".
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\vlfeat-0.9.20" /IC:\opencv\build\x86\vc10\..\..\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt dsp_sift_helperlib.cpp main.cpp vlfeat_helperlib.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\vlfeat-0.9.20" /IC:\opencv\build\x86\vc10\..\..\include /I"C:\stlsoft-1.9.119-hdrs\stlsoft-1.9.119\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt dsp_sift_helperlib.cpp main.cpp vlfeat_helperlib.cpp
          vlfeat_helperlib.cpp
          main.cpp
          dsp_sift_helperlib.cpp
@@ -24,4 +24,4 @@
 
 Das Erstellen war erfolgreich.
 
-Verstrichene Zeit 00:00:08.57
+Verstrichene Zeit 00:00:10.22

@@ -1,26 +1,262 @@
-﻿Der Buildvorgang wurde am 04.09.2015 15:55:45 gestartet.
-     1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", build Ziel(e).
-     1>InitializeBuildStatus:
+﻿Der Buildvorgang wurde am 04.09.2015 21:19:11 gestartet.
+     1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", rebuild Ziel(e).
+     1>_PrepareForClean:
+         Die Datei "Release\DSP_SIFT.lastbuildstate" wird gelöscht.
+       InitializeBuildStatus:
          "Release\DSP_SIFT.unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv\build\x86\vc10\..\..\include /I"C:\vlfeat-0.9.20" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt dsp_sift_helperlib.cpp main.cpp vlfeat_helperlib.cpp
          dsp_sift_helperlib.cpp
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'InternalHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Offset'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'OffsetHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Pointer'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hEvent'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpCompletionKey'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwNumberOfBytesTransferred'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'nLength'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpSecurityDescriptor'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'bInheritHandle'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hProcess'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hThread'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwProcessId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwThreadId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwLowDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwHighDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wYear'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMonth'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDayOfWeek'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDay'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wHour'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMinute'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wSecond'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMilliseconds'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'WINAPI': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'PTHREAD_START_ROUTINE': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): fatal error C1903: Weiterverarbeitung nach vorherigem Fehler nicht möglich; Kompilierung wird abgebrochen.
          main.cpp
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'InternalHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Offset'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'OffsetHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Pointer'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hEvent'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpCompletionKey'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwNumberOfBytesTransferred'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'nLength'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpSecurityDescriptor'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'bInheritHandle'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hProcess'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hThread'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwProcessId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwThreadId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwLowDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwHighDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wYear'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMonth'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDayOfWeek'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDay'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wHour'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMinute'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wSecond'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMilliseconds'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'WINAPI': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'PTHREAD_START_ROUTINE': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): fatal error C1903: Weiterverarbeitung nach vorherigem Fehler nicht möglich; Kompilierung wird abgebrochen.
          vlfeat_helperlib.cpp
-       Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.exe" /NOLOGO /LIBPATH:C:\opencv\build\x86\vc10\lib /LIBPATH:"C:\vlfeat-0.9.20\bin\win32" opencv_calib3d2411.lib opencv_contrib2411.lib opencv_core2411.lib opencv_features2d2411.lib opencv_flann2411.lib opencv_gpu2411.lib opencv_highgui2411.lib opencv_imgproc2411.lib opencv_legacy2411.lib opencv_ml2411.lib opencv_nonfree2411.lib opencv_objdetect2411.lib opencv_ocl2411.lib opencv_photo2411.lib opencv_stitching2411.lib opencv_superres2411.lib opencv_ts2411.lib opencv_video2411.lib opencv_videostab2411.lib vl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\DSP_SIFT.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.lib" /MACHINE:X86 Release\dsp_sift_helperlib.obj
-         Release\main.obj
-         Release\vlfeat_helperlib.obj
-         Code wird generiert.
-         Codegenerierung ist abgeschlossen.
-         DSP_SIFT.vcxproj -> C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Release\DSP_SIFT.exe;#1" /manifest Release\DSP_SIFT.exe.intermediate.manifest
-       FinalizeBuildStatus:
-         Die Datei "Release\DSP_SIFT.unsuccessfulbuild" wird gelöscht.
-         Aktualisieren des Timestamps von "Release\DSP_SIFT.lastbuildstate".
-     1>Die Erstellung des Projekts "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" ist abgeschlossen, build Ziel(e).
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(243): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'InternalHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(244): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Offset'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(247): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'OffsetHigh'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(248): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Pointer'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(250): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hEvent'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(253): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpCompletionKey'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(257): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'Internal'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(259): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwNumberOfBytesTransferred'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(260): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'nLength'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(264): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'lpSecurityDescriptor'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(265): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'bInheritHandle'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(266): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hProcess'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(270): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'hThread'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(271): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwProcessId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(272): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwThreadId'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(273): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwLowDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(284): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'dwHighDateTime'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(285): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wYear'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(295): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMonth'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(296): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDayOfWeek'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(297): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wDay'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(298): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wHour'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(299): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMinute'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(300): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wSecond'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(301): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C2146: Syntaxfehler: Fehlendes ';' vor Bezeichner 'wMilliseconds'
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(302): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'WINAPI': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C2065: 'PTHREAD_START_ROUTINE': nichtdeklarierter Bezeichner
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): error C4430: Fehlender Typspezifizierer - int wird angenommen. Hinweis: "default-int" wird von C++ nicht unterstützt.
+     1>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\WinBase.h(306): fatal error C1903: Weiterverarbeitung nach vorherigem Fehler nicht möglich; Kompilierung wird abgebrochen.
+     1>Die Erstellung des Projekts "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" ist abgeschlossen, rebuild Ziel(e) -- FEHLER.
 
-Das Erstellen war erfolgreich.
+Fehler beim Erstellen
 
-Verstrichene Zeit 00:00:07.16
+Verstrichene Zeit 00:00:05.09

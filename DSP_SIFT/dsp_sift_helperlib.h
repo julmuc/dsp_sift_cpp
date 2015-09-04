@@ -14,6 +14,7 @@
 #include <opencv2\core\core.hpp>
 #include "vlfeat_helperlib.h"
 #include "debug_helper.h"
+#include <platformstl\performance\performance_counter.hpp>
 
 /************************************************** Structures *******************************************************/
 
@@ -54,6 +55,12 @@ namespace dspsift_helperlib
 	** @return todo
 	**/
 	void sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
+
+
+
+
+	// Debug methods
+	void sortTest();
 
 
 } 

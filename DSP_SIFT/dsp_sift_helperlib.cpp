@@ -49,7 +49,67 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 
 	// todo
 
+	platformstl::performance_counter c;
 
+	/******************** DEBUG ******************/
+	//c.start();
+	//dspsift_helperlib::sortTest();
+	//c.stop();
+	//   
+	//std::cout << "time (s): " << c.get_seconds() << std::endl;
+	//   std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+	//   std::cout << "time (us): " << c.get_microseconds() << std::endl;
+	/******************** DEBUG ******************/
+	
+	c.start();
+
+	cv::Mat sorted_featureMat;
+	sorted_featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);
+
+	cv::Mat sorted_idx, sorted_idx_back, sorted_mat;
+
+	// get the indices of the InputMat second row data sorted in ascending order
+	cv::sortIdx(featureMat.row(2), sorted_idx, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
+
+	// get the indices of the back assignment (so far just for testing)
+	cv::sortIdx(sorted_idx,sorted_idx_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
+
+	// row pointers of sorted mat
+	double *p_r0 = 0;
+	double *p_r1 = 0;
+	double *p_r2 = 0;
+	double *p_r3 = 0; 
+	p_r0 = sorted_featureMat.ptr<double>(0);
+	p_r1 = sorted_featureMat.ptr<double>(1);
+	p_r2 = sorted_featureMat.ptr<double>(2);
+	p_r3 = sorted_featureMat.ptr<double>(3);
+
+	// row pointers of unsorted mat
+	double *p_r0_unsorted = 0;
+	double *p_r1_unsorted = 0;
+	double *p_r2_unsorted = 0;
+	double *p_r3_unsorted = 0;
+	p_r0_unsorted = featureMat.ptr<double>(0);
+	p_r1_unsorted = featureMat.ptr<double>(1);
+	p_r2_unsorted = featureMat.ptr<double>(2);
+	p_r3_unsorted = featureMat.ptr<double>(3);
+
+	//sorting
+	for(int col_iter=0; col_iter<sorted_featureMat.cols; col_iter++)
+	{	
+		p_r0[col_iter] = p_r0_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r1[col_iter] = p_r1_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r2[col_iter] = p_r2_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r3[col_iter] = p_r3_unsorted[sorted_idx.at<int>(0,col_iter)];
+	}
+
+
+	c.stop();
+	std::cout << "time (s): " << c.get_seconds() << std::endl;
+	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+	std::cout << "time (us): " << c.get_microseconds() << std::endl;
+	
+	
 	//------------------------------------------- Aggregate and normalize -------------------------------------------//
 
 
@@ -129,4 +189,65 @@ void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOp
 	/*************************** DEBUG *******************/
 
 	return;
+}
+
+
+void dspsift_helperlib::sortTest()
+{	
+	std::cout << "\n" << " =========== sortTest() start ========== " << std::endl;
+
+	cv::Mat sorted_idx, assign_back, sorted_mat;
+
+	// initialize Test input matrix
+	cv::Mat InputMat = (cv::Mat_<double>(4,3) <<   1,    2,   3,
+											4,    2,   1,
+										  0.5,  1.2, 0.3,
+										 -0.2,  0.2, 0.1);
+	// initialize Test output sorted matrix
+	sorted_mat = cv::Mat::zeros(4,3, CV_64F);
+
+
+	std::cout << "InputMat = " << std::endl << " " << InputMat << std::endl << std::endl;
+
+	// get the indices of the InputMat second row data sorted in ascending order
+	cv::sortIdx(InputMat.row(2), sorted_idx, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
+
+	// get the indices of the back assignment (so far just for testing)
+	cv::sortIdx(sorted_idx,assign_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
+
+	std::cout << "InputMat.row(2) = " << std::endl << " " << InputMat.row(2) << std::endl << std::endl;
+	std::cout << "sorted_idx = " << std::endl << " " << sorted_idx << std::endl << std::endl;
+	std::cout << "assign_back = " << std::endl << " " << assign_back << std::endl << std::endl;
+
+	// row pointers of sorted mat
+	double *p_r0 = 0;
+	double *p_r1 = 0;
+	double *p_r2 = 0;
+	double *p_r3 = 0; 
+	p_r0 = sorted_mat.ptr<double>(0);
+	p_r1 = sorted_mat.ptr<double>(1);
+	p_r2 = sorted_mat.ptr<double>(2);
+	p_r3 = sorted_mat.ptr<double>(3);
+
+	// row pointers of unsorted mat
+	double *p_r0_unsorted = 0;
+	double *p_r1_unsorted = 0;
+	double *p_r2_unsorted = 0;
+	double *p_r3_unsorted = 0;
+	p_r0_unsorted = InputMat.ptr<double>(0);
+	p_r1_unsorted = InputMat.ptr<double>(1);
+	p_r2_unsorted = InputMat.ptr<double>(2);
+	p_r3_unsorted = InputMat.ptr<double>(3);
+
+
+	for(int col_iter=0; col_iter<sorted_mat.cols; col_iter++)
+	{	
+		p_r0[col_iter] = p_r0_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r1[col_iter] = p_r1_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r2[col_iter] = p_r2_unsorted[sorted_idx.at<int>(0,col_iter)];
+		p_r3[col_iter] = p_r3_unsorted[sorted_idx.at<int>(0,col_iter)];
+	}
+	std::cout << "sorted_mat = " << std::endl << " " << sorted_mat << std::endl << std::endl;
+	std::cout << "\n" << " =========== sortTest() end ========== " << std::endl;
+
 }

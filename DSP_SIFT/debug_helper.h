@@ -8,10 +8,13 @@
 
 #include <iostream>
 
+
 #ifdef NDEBUG
 #define debug(M, ...)
 #else
 #define debug(M, ...) std::cout << "Func.: " << __FUNCTION__ << "  L.: " << __LINE__ << "  Value: " << M << std::endl;
 #endif
+
+
 
 #endif // DEBUGHELPER_H
