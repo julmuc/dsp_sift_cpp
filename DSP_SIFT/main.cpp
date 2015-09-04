@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     int Tnframes = 0;
 	
 	// call sift
-   // vlfeat_helperlib::VLSIFT(Timage, TDescr, TFrames, &Tnframes);
+    //vlfeat_helperlib::VLSIFT(Timage, TDescr, TFrames, &Tnframes);
 	
 	// call dsp_sift
 	dspsift_helperlib::DSP_SIFT(Timage,dsp_opt,TDescr,TFrames,&Tnframes);
@@ -63,5 +63,9 @@ int main(int argc, char** argv)
 	// show image
     cvShowImage("FrameT", Timage);
     cvWaitKey(0);
+
+	free(TFrames);
+	free(TDescr);
+
 	return 0;
 }

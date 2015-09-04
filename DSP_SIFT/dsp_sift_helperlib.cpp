@@ -21,10 +21,6 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	// static allocation and zero-initialization of arrays for features(frames) and descriptors
     double* siftFrames = (double*)calloc(4*10000, sizeof(double));
     vl_uint8* siftDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
-	
-	o_DATAframes = (double*)calloc(4*10000, sizeof(double));
-    o_DATAdescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
-
 
 	// stores number of features(frames)
     int nframes = 0;
@@ -32,6 +28,10 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	// call sift
     vlfeat_helperlib::VLSIFT(i_image, siftDescr, siftFrames, &nframes);
 	
+	// save variables:
+	memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));
+	memcpy(o_DATAdescr, siftDescr, 128*nframes*sizeof(vl_uint8));
+
 	// reallocate memory block (in case to much space allocated before) 
     siftFrames = (double*)realloc(siftFrames, 4*sizeof(double)*nframes); // = Y X Scale Angle
     siftDescr = (vl_uint8*)realloc(siftDescr, 128*sizeof(vl_uint8)*nframes);
@@ -56,11 +56,14 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	// todo
 
 
-	//tmp return values
-	o_DATAframes = (double*)realloc(o_DATAframes, 4*sizeof(double)*nframes);
-    o_DATAdescr  = (vl_uint8*)realloc(o_DATAdescr, 128*sizeof(vl_uint8)*nframes);
 
+
+
+	//--------------------------------------------- clean up and return ---------------------------------------------//
 	*o_nframes = nframes;
+
+	free(siftFrames);
+	free(siftDescr);
 
 	return;
 }
