@@ -147,7 +147,6 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 			{
 				printf ("vl_sift: detected %d (unoriented) keypoints\n", nkeys);
 			}
-
 		}
 		else
 		{

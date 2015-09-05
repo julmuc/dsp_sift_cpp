@@ -24,7 +24,10 @@ namespace dspsift_helperlib
 {
 
 	typedef struct dspOptions
-	{
+	{	
+		// default constructor
+		dspOptions(): sc_min(0.5), sc_max(2), ns(10), vlsift_opt(vlfeat_helperlib::vl_sift_options()){}
+
 		double sc_min;			// scale sampling lower limit
 		double sc_max;			// scale sampling upper limit. Scales are sampled from (sc_min * s, sc_max * s) where s is the detected scale
 		int ns;					// number of scales

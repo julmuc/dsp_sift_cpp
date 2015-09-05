@@ -21,28 +21,11 @@
 
 int main(int argc, char** argv)
 {	
-	// set vl_sift options
-	vlfeat_helperlib::vl_sift_options _vlsift_opt;
-	_vlsift_opt.verbose						= 1;	// change to 2 for more verbose..
-	_vlsift_opt.O							= -1;	//Octaves
-	_vlsift_opt.S							= 3;	//Levels
-	_vlsift_opt.o_min						= 0;
-	_vlsift_opt.edge_thresh					= -1;	//-1 will use the default (as in matlab)
-	_vlsift_opt.peak_thresh					= -1;
-	_vlsift_opt.norm_thresh					= -1;
-	_vlsift_opt.magnif						= -1;
-	_vlsift_opt.window_size					= -1;
-	_vlsift_opt.ikeys						= 0;
-	_vlsift_opt.nikeys						= -1;
-	_vlsift_opt.force_orientations			= 0;
-	_vlsift_opt.floatDescriptors			= 0;
+	//// set vl_sift options 
+	////vlfeat_helperlib::vl_sift_options _vlsift_opt = vlfeat_helperlib::vl_sift_options();
 
 	// set dsp options
-	dspsift_helperlib::dspOptions dsp_opt;
-	dsp_opt.ns = 10;
-	dsp_opt.sc_max = 2.0f;
-	dsp_opt.sc_min = 0.5f;
-	dsp_opt.vlsift_opt = _vlsift_opt;
+	dspsift_helperlib::dspOptions dsp_opt = dspsift_helperlib::dspOptions();
 
 	// load template image:
 	// needs to be grayscale image
@@ -55,8 +38,8 @@ int main(int argc, char** argv)
 	// stores number of features
     int Tnframes = 0;
 	
-	// call sift
-    //vlfeat_helperlib::vlsift(Timage, TDescr, TFrames, &Tnframes, _vlsift_opt);
+	//// call sift
+	////vlfeat_helperlib::vlsift(Timage, TDescr, TFrames, &Tnframes, _vlsift_opt);
 	
 	// call dsp_sift
 	dspsift_helperlib::dsp_sift(Timage,dsp_opt,TDescr,TFrames,&Tnframes);

@@ -83,7 +83,21 @@ namespace vlfeat_helperlib
 	verbosity level).
 	*/
 	typedef struct vl_sift_options
-	{
+	{	
+		vl_sift_options(): verbose(1),
+							O(-1), 
+							S(3),
+							o_min(0),
+							edge_thresh(-1),
+							peak_thresh(-1),
+							norm_thresh(-1),
+							magnif(-1),
+							window_size(-1),
+							ikeys(0),
+							nikeys(-1),
+							force_orientations(0),
+							floatDescriptors(0){ }   // default Constructor
+
 		int                verbose; 
 		int                O; //Octaves
 		int                S; //Levels
