@@ -47,7 +47,7 @@ namespace dspsift_helperlib
 	** @param o_nframes int* to the number of frames
 	** 
 	**/
-	void dsp_sift(IplImage* i_image, dspOptions i_opt, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
+	void dsp_sift(IplImage* i_image, dspOptions i_opt, float* o_DATAdescr, double* o_DATAframes, int* o_nframes);
 
 	/** ------------------------------------------------------------------
 	** @internal

@@ -96,7 +96,8 @@ namespace vlfeat_helperlib
 							ikeys(0),
 							nikeys(-1),
 							force_orientations(0),
-							floatDescriptors(0){ }   // default Constructor
+							floatDescriptors(0),
+							ikeys_provided(0){ }   // default Constructor
 
 		int                verbose; 
 		int                O; //Octaves
@@ -111,6 +112,7 @@ namespace vlfeat_helperlib
 		int                nikeys; 
 		vl_bool            force_orientations;
 		vl_bool            floatDescriptors;
+		bool			   ikeys_provided;
 	} vl_sift_options;
 
 
@@ -139,7 +141,7 @@ namespace vlfeat_helperlib
 	** 
 	** @return todo
 	**/
-	void vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts);
+	void vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts);
 
 	/** ------------------------------------------------------------------
 	** @internal

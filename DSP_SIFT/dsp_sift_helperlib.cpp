@@ -12,25 +12,26 @@
 
 void dspsift_helperlib::dsp_sift(IplImage* i_image,
 									dspsift_helperlib::dspOptions i_opt,
-									vl_uint8* o_DATAdescr,
+									float* o_DATAdescr,
 									double* o_DATAframes,
 									int* o_nframes)
 {	
+	dspsift_helperlib::dspOptions _dsp_opt = i_opt;
 
 	//----------------------------------------------- Detection -----------------------------------------------------//
 	// static allocation and zero-initialization of arrays for features(frames) and descriptors
     double* siftFrames = (double*)calloc(4*10000, sizeof(double));
-    vl_uint8* siftDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
+    void* siftDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
 
 	// stores number of features(frames)
     int nframes = 0;
 	
 	// call sift
-    vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes, i_opt.vlsift_opt);
+    vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes, _dsp_opt.vlsift_opt);
 	
-	// save variables:
-	memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));
-	memcpy(o_DATAdescr, siftDescr, 128*nframes*sizeof(vl_uint8));
+	//// save variables:
+	//memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));
+	//memcpy(o_DATAdescr, siftDescr, 128*nframes*sizeof(vl_uint8));
 
 	// reallocate memory block (in case to much space allocated before) 
     siftFrames = (double*)realloc(siftFrames, 4*sizeof(double)*nframes); // = Y X Scale Angle
@@ -40,9 +41,9 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	int dimFeature = 4;
 
 	cv::Mat featureMat;
-	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);	// 4x(ns*nf) double matrix
+	featureMat = cv::Mat::zeros(dimFeature, nframes*_dsp_opt.ns, CV_64F);	// 4x(ns*nf) double matrix
 
-	dspsift_helperlib::samplescales(siftFrames,&nframes,i_opt,featureMat);
+	dspsift_helperlib::samplescales(siftFrames,&nframes,_dsp_opt,featureMat);
 
 	//--------------------------------- Compute un-normalized SIFT at each scales -----------------------------------//
 
@@ -77,7 +78,49 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	
 	//todo call to vlsift with sorted_features
 
+	double* output_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
+    void* output_desc  = (float*)calloc(128*sorted_featureMat.cols, sizeof(float));
+
+	// ======================== start:  parse scaled keypoints to array form
+	double* input_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
+	//_dsp_opt.vlsift_opt.ikeys = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
+
+
+	for(int nframe=0; nframe<sorted_featureMat.cols; nframe++)
+	{
+		input_frames[4*nframe + 0] = sorted_featureMat.at<double>(0,nframe);
+		input_frames[4*nframe + 1] = sorted_featureMat.at<double>(1,nframe);
+		input_frames[4*nframe + 2] = sorted_featureMat.at<double>(2,nframe);
+		input_frames[4*nframe + 3] = sorted_featureMat.at<double>(3,nframe);
+
+		if(nframe<5)
+		{	
+			std::cout << "col: " << nframe << std::endl;
+			std::cout << "x: " << sorted_featureMat.at<double>(0,nframe) << std::endl;
+			std::cout << "x via ptr: " << input_frames[4*nframe + 0] << std::endl;
+			std::cout << "y: " << sorted_featureMat.at<double>(1,nframe) << std::endl;
+			std::cout << "scale: " << sorted_featureMat.at<double>(2,nframe) << std::endl;
+			std::cout << "angle: " << sorted_featureMat.at<double>(3,nframe) << std::endl;
+		}
+	}
+
+	// ======================== end:  parse scaled keypoints to array form
+
+	_dsp_opt.vlsift_opt.ikeys_provided = true;
+	_dsp_opt.vlsift_opt.ikeys = input_frames;
+	//std::memcpy(_dsp_opt.vlsift_opt.ikeys, input_frames,sorted_featureMat.rows*sorted_featureMat.cols*sizeof(double));
+	_dsp_opt.vlsift_opt.nikeys = sorted_featureMat.cols;
+	_dsp_opt.vlsift_opt.floatDescriptors = 1;
+
+	int numframes = 0;
+	vlfeat_helperlib::vlsift(i_image, output_desc, output_frames, &numframes, _dsp_opt.vlsift_opt);
+
 	
+
+		// save variables:
+	memcpy(o_DATAframes, output_frames, 4*numframes*sizeof(double));
+	memcpy(o_DATAdescr, output_desc, 128*numframes*sizeof(float));
+
 	//------------------------------------------- Aggregate and normalize -------------------------------------------//
 
 
@@ -88,11 +131,13 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
-	*o_nframes = nframes;
+	*o_nframes = numframes;
 
 	free(siftFrames);
 	free(siftDescr);
-
+	free(output_frames);
+	free(output_desc);
+	free(input_frames);
 	return;
 }
 

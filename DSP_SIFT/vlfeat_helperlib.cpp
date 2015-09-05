@@ -14,7 +14,7 @@
 
 /******************************************** Function Definitions ***************************************************/
 
-void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts)
+void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts)
 {	
 	int imHeight, imWidth;
 	imHeight = i_image->height;
@@ -54,15 +54,39 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
     double             _norm_thresh			= opts.norm_thresh;
     double             _magnif				= opts.magnif;
     double             _window_size			= opts.window_size;
-    double            *ikeys				= opts.ikeys; //?	//*ikeys_array = 0;????
-    int                nikeys				= opts.nikeys; //?
+	//double			   *ikeys				= 0;
+    int                nikeys				= opts.nikeys; 
     vl_bool            force_orientations	= opts.force_orientations;
     vl_bool            floatDescriptors		= opts.floatDescriptors;
-   
+	bool				_ikeys_provided		= opts.ikeys_provided;
+
+	double *ikeys_array = (double*)calloc(4*nikeys,sizeof(double));
+	double *ikeys = (double*)calloc(4*nikeys,sizeof(double));
+	//check if input keys are sorted
+	if(_ikeys_provided)
+	{	
+		 std::memcpy(ikeys_array, opts.ikeys,4*nikeys*sizeof(double));
+		ikeys = ikeys_array;
+		if (!check_sorted(ikeys, nikeys)) 
+		{
+			printf("vl_sift: Sorting input keys...\n");
+			qsort(ikeys, nikeys, 4*sizeof(double), korder);
+		}
+		printf("vl_sift: Input keys are already sorted!\n");
+	}
+	else
+	{
+		free(ikeys_array);
+		free(ikeys);
+	}
+
+
+
 	/* -----------------------------------------------------------------
     *                                                            Do job
     * -------------------------------------------------------------- */
- 
+
+
 	VlSiftFilt	*filt;
 	vl_bool		first;
 	double		*frames = 0;
@@ -96,8 +120,9 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 		printf("vl_sift:   norm thresh           = %g\n", vl_sift_get_norm_thresh(filt));
 		printf("vl_sift:   window size           = %g\n", vl_sift_get_window_size(filt));
 		printf("vl_sift:   float descriptor      = %d\n", floatDescriptors);
+		printf("vl_sift: input keys provided? %s\n", _ikeys_provided ? "yes" : "no") ;
 		printf((nikeys >= 0) ? "vl_sift: will source frames? yes (%d read)\n" : "vl_sift: will source frames? no\n", nikeys);
-		printf("vl_sift: will force orientations? %s\n", force_orientations ? "yes" : "no") ;
+		printf("vl_sift: will force orientations? %s\n", force_orientations ? "yes" : "no");
 	} 
 	/* ...............................................................
 	*                                             Process each octave
@@ -163,8 +188,18 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 
 			/* Obtain keypoint orientations ........................... */
 			if (nikeys >= 0)
-			{
-				vl_sift_keypoint_init(filt, &ik, ikeys [4 * i + 1] - 1, ikeys [4 * i + 0] - 1, ikeys [4 * i + 2]);
+			{	
+
+				if(i<5)
+				{	
+					std::cout << "vlsift frame: " << i << std::endl;
+					std::cout << "x: " << ikeys[4 * i + 0] << std::endl;
+					std::cout << "y: " << ikeys[4 * i + 1] << std::endl;
+					std::cout << "scale: " << ikeys[4 * i + 2] << std::endl;
+					std::cout << "angle: " << ikeys[4 * i + 3] << std::endl;
+				}
+
+				vl_sift_keypoint_init(filt, &ik, ikeys[4 * i + 1] - 1, ikeys[4 * i + 0] - 1, ikeys[4 * i + 2]);
 
 				if (ik.o != vl_sift_get_octave_index(filt))
 					break;
@@ -207,7 +242,6 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 						descr  = (vl_uint8*)realloc(descr,  128*sizeof(vl_uint8)*reserved);
 					else
 						descr  = (float*)realloc(descr,  128*sizeof(float)*reserved);
-
 				}
 
 				/* Save back with MATLAB conventions. Notice that the input
@@ -257,11 +291,17 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 
 	// save variables:
 	memcpy(o_DATAframes, frames, 4*(*o_nframes)*sizeof(double));
-	memcpy(o_DATAdescr, descr, 128*(*o_nframes)*sizeof(vl_uint8));
-
+	if(!floatDescriptors)
+		memcpy((vl_uint8*)o_DATAdescr, descr, 128*(*o_nframes)*sizeof(vl_uint8));
+	else
+		memcpy((float*)o_DATAdescr, descr, 128*(*o_nframes)*sizeof(float));
 	/* cleanup */
 	vl_sift_delete(filt);
-	
+	if(_ikeys_provided)
+	{	
+		free(ikeys);	//free's also ikeys_array
+	//	free(ikeys_array);
+	}
 	/* end: do job */
 	return;
 }

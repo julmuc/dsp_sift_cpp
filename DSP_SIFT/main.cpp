@@ -32,8 +32,8 @@ int main(int argc, char** argv)
     IplImage* Timage = cvLoadImage("C:/Users/Julian/Documents/Visual Studio 2010/Projects/DSP_SIFT/Debug/Lena.png",0);
  
 	// static allocation and zero-initialization of arrays for features and descriptors
-    double* TFrames = (double*)calloc(4*10000, sizeof(double));
-    vl_uint8* TDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
+    double* TFrames = (double*)calloc(4*20000, sizeof(double));
+    float* TDescr  = (float*)calloc(128*20000, sizeof(float));
 	
 	// stores number of features
     int Tnframes = 0;
@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
 	// reallocate memory block (in case to much space allocated before) 
     TFrames = (double*)realloc(TFrames, 4*sizeof(double)*Tnframes); // = Y X Scale Angle
-    TDescr = (vl_uint8*)realloc(TDescr, 128*sizeof(vl_uint8)*Tnframes);
+    TDescr = (float*)realloc(TDescr, 128*sizeof(float)*Tnframes);
     
 	// draw each feature + descriptor region as a circle
     for(int i=0; i<Tnframes; i++){
