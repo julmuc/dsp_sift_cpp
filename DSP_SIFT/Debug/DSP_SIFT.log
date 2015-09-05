@@ -1,15 +1,16 @@
-﻿Der Buildvorgang wurde am 04.09.2015 21:43:49 gestartet.
+﻿Der Buildvorgang wurde am 05.09.2015 15:38:18 gestartet.
      1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", rebuild Ziel(e).
      1>_PrepareForClean:
          Die Datei "Debug\DSP_SIFT.lastbuildstate" wird gelöscht.
        InitializeBuildStatus:
-         Aktualisieren des Timestamps von "Debug\DSP_SIFT.unsuccessfulbuild".
+         "Debug\DSP_SIFT.unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\vlfeat-0.9.20" /IC:\opencv\build\x86\vc10\..\..\include /I"C:\stlsoft-1.9.119-hdrs\stlsoft-1.9.119\include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt dsp_sift_helperlib.cpp main.cpp vlfeat_helperlib.cpp
          vlfeat_helperlib.cpp
          main.cpp
          dsp_sift_helperlib.cpp
          Code wird generiert...
+     1>cl : Befehlszeile warning D9028: Fehler beim minimalen Neukompilieren, normale Erstellung wird durchgeführt.
        Link:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Debug\DSP_SIFT.exe" /NOLOGO /LIBPATH:C:\opencv\build\x86\vc10\lib /LIBPATH:"C:\vlfeat-0.9.20\bin\win32" opencv_calib3d2411d.lib opencv_contrib2411d.lib opencv_core2411d.lib opencv_features2d2411d.lib opencv_flann2411d.lib opencv_gpu2411d.lib opencv_highgui2411d.lib opencv_imgproc2411d.lib opencv_legacy2411d.lib opencv_ml2411d.lib opencv_nonfree2411d.lib opencv_objdetect2411d.lib opencv_ocl2411d.lib opencv_photo2411d.lib opencv_stitching2411d.lib opencv_superres2411d.lib opencv_ts2411d.lib opencv_video2411d.lib opencv_videostab2411d.lib vl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\DSP_SIFT.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Debug\DSP_SIFT.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\Debug\DSP_SIFT.lib" /MACHINE:X86 Debug\dsp_sift_helperlib.obj
          Debug\main.obj
@@ -24,4 +25,4 @@
 
 Das Erstellen war erfolgreich.
 
-Verstrichene Zeit 00:00:10.22
+Verstrichene Zeit 00:00:10.86

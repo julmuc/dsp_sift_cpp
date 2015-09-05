@@ -11,19 +11,20 @@
 
 /******************************************** Function Definitions ***************************************************/
 
-void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes)
-{ 
+void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes)
+{	
+	int imHeight, imWidth;
+	imHeight = i_image->height;
+	imWidth = i_image->width;
+
     //Take IplImage -> convert to SINGLE (float):
-    float* frame = (float*)malloc(i_image->height*i_image->width*sizeof(float));
+    float* frame = (float*)malloc(imHeight*imWidth*sizeof(float));
     uchar* Ldata = (uchar*)i_image->imageData;
 	int ws = i_image->widthStep;
 	int chns = i_image->nChannels;
 	//std::cout << "widthStep: " <<i_image->widthStep << std::endl;
 	//std::cout << "channels: " <<i_image->nChannels << std::endl;
-    
-	int imHeight, imWidth;
-	imHeight = i_image->height;
-	imWidth = i_image->width;
+
 
 	for(int i=0; i<imHeight; i++)
 	{
@@ -50,7 +51,7 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
     double             norm_thresh			= -1;
     double             magnif				= -1;
     double             window_size			= -1;
-    double            *ikeys				= 0; //?
+    double            *ikeys				= 0; //?	//*ikeys_array = 0;????
     int                nikeys				= -1; //?
     vl_bool            force_orientations	= 0;
     vl_bool            floatDescriptors		= 0;
@@ -62,7 +63,8 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 	VlSiftFilt	*filt;
 	vl_bool		first;
 	double		*frames = 0;
-	vl_uint8	*descr = 0;
+	//vl_uint8	*descr = 0;
+	void		*descr = 0;
 	int			reserved = 0;
 	int			i,j,q;
 
@@ -199,7 +201,11 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 				{
 					reserved  += 2*nkeys;
 					frames = (double*)realloc(frames, 4*sizeof(double)*reserved);
-					descr  = (vl_uint8*)realloc(descr,  128*sizeof(vl_uint8)*reserved);
+					if(!floatDescriptors)
+						descr  = (vl_uint8*)realloc(descr,  128*sizeof(vl_uint8)*reserved);
+					else
+						descr  = (float*)realloc(descr,  128*sizeof(float)*reserved);
+
 				}
 
 				/* Save back with MATLAB conventions. Notice that the input
@@ -220,12 +226,22 @@ void vlfeat_helperlib::VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 
 				}
 				/*************************** DEBUG *******************/
-
-				for(j=0; j<128; ++j)
+				if(!floatDescriptors)
 				{
-					float x = 512.0F * rbuf[j];
-					x = (x < 255.0F) ? x : 255.0F;
-					descr[128*(*o_nframes) + j] = (vl_uint8)x;
+					for(j=0; j<128; ++j)
+					{
+						float x = 512.0F * rbuf[j];
+						x = (x < 255.0F) ? x : 255.0F;
+						((vl_uint8*)descr)[128 * (*o_nframes) + j] = (vl_uint8)x;
+					}
+				}
+				else
+				{
+					for (j=0; j<128; ++j)
+					{
+						float x = rbuf[j];
+						((float*)descr) [128 * (*o_nframes) + j] = x;
+					}
 				}
 				++(*o_nframes);
 			} /* next orientation */
@@ -274,7 +290,7 @@ void vlfeat_helperlib::transpose_descriptor(vl_sift_pix* dst, vl_sift_pix* src)
 
 /*********************************************************************************************************************/
 
-void vlfeat_helperlib::VLMATCH(vl_uint8* L1_pt,vl_uint8* L2_pt, int K1, int K2, double thresh, int* nMatches, double* MATCHES )
+void vlfeat_helperlib::vlmatch(vl_uint8* L1_pt,vl_uint8* L2_pt, int K1, int K2, double thresh, int* nMatches, double* MATCHES )
 { 
     //Match descriptors!
     int ND = 128;

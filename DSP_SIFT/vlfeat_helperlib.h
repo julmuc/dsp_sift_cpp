@@ -58,7 +58,7 @@ namespace vlfeat_helperlib
 	** 
 	** @return todo
 	**/
-	void VLSIFT(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
+	void vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -71,7 +71,7 @@ namespace vlfeat_helperlib
 	** 
 	** @return todo
 	**/
-	void VLMATCH(vl_uint8* L1_pt,vl_uint8* L2_pt, int K1, int K2, double thresh, int* nMatches, double* MATCHES);
+	void vlmatch(vl_uint8* L1_pt,vl_uint8* L2_pt, int K1, int K2, double thresh, int* nMatches, double* MATCHES);
 
 	/** ------------------------------------------------------------------
 	** @internal

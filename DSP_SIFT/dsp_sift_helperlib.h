@@ -36,12 +36,14 @@ namespace dspsift_helperlib
 	** @internal
 	** @brief based on dsp_sift by J.Dong
 	**
-	** @param todo
-	** @param todo
+	** @param i_image input greyscale image
+	** @param i_opt input option for sampling different scales
+	** @param o_DATAdescr vl_uint8* pointer to array of output descriptors
+	** @param o_DATAframes double* pointer to array of output frames(sift features)
+	** @param o_nframes int* to the number of frames
 	** 
-	** @return todo
 	**/
-	void DSP_SIFT(IplImage* i_image, dspOptions i_opt, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
+	void dsp_sift(IplImage* i_image, dspOptions i_opt, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -50,17 +52,24 @@ namespace dspsift_helperlib
 	** @param i_DATAframes input features 
 	** @param i_nframes total number of features
 	** @param i_opt scale options
-	** @param const cv::Mat &o_sampledfeatureMat const as matrix dimension do not change, (data values surely do!) //TODO CHANGE
+	** @param o_sampledfeatureMat sampled output matrix
 	** 
-	** @return todo
 	**/
-	void sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
+	void samplescales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
 
-
-
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Sorts the input matrix columns according to the given indices 
+	**
+	** @param i_mat unsorted input matrix 
+	** @param i_indices input indices for sort order of columns
+	** @param o_mat sorted output matrix
+	** 
+	**/
+	void sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
 
 	// Debug methods
-	void sortTest();
+	void sorttest();
 
 
 } 

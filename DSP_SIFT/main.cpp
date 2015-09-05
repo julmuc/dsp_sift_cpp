@@ -39,10 +39,10 @@ int main(int argc, char** argv)
     int Tnframes = 0;
 	
 	// call sift
-    //vlfeat_helperlib::VLSIFT(Timage, TDescr, TFrames, &Tnframes);
+    //vlfeat_helperlib::vlsift(Timage, TDescr, TFrames, &Tnframes);
 	
 	// call dsp_sift
-	dspsift_helperlib::DSP_SIFT(Timage,dsp_opt,TDescr,TFrames,&Tnframes);
+	dspsift_helperlib::dsp_sift(Timage,dsp_opt,TDescr,TFrames,&Tnframes);
 
 	// reallocate memory block (in case to much space allocated before) 
     TFrames = (double*)realloc(TFrames, 4*sizeof(double)*Tnframes); // = Y X Scale Angle

@@ -10,7 +10,7 @@
 
 /******************************************** Function Definitions ***************************************************/
 
-void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
+void dspsift_helperlib::dsp_sift(IplImage* i_image,
 									dspsift_helperlib::dspOptions i_opt,
 									vl_uint8* o_DATAdescr,
 									double* o_DATAframes,
@@ -26,7 +26,7 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
     int nframes = 0;
 	
 	// call sift
-    vlfeat_helperlib::VLSIFT(i_image, siftDescr, siftFrames, &nframes);
+    vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes);
 	
 	// save variables:
 	memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));
@@ -42,31 +42,24 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	cv::Mat featureMat;
 	featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);	// 4x(ns*nf) double matrix
 
-	sampleScales(siftFrames,&nframes,i_opt,featureMat);
+	dspsift_helperlib::samplescales(siftFrames,&nframes,i_opt,featureMat);
 
 	//--------------------------------- Compute un-normalized SIFT at each scales -----------------------------------//
-
-
-	// todo
 
 	platformstl::performance_counter c;
 
 	/******************** DEBUG ******************/
 	//c.start();
-	//dspsift_helperlib::sortTest();
+	//dspsift_helperlib::sorttest();
 	//c.stop();
 	//   
 	//std::cout << "time (s): " << c.get_seconds() << std::endl;
 	//   std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
 	//   std::cout << "time (us): " << c.get_microseconds() << std::endl;
 	/******************** DEBUG ******************/
-	
 	c.start();
-
-	cv::Mat sorted_featureMat;
-	sorted_featureMat = cv::Mat::zeros(dimFeature, nframes*i_opt.ns, CV_64F);
-
-	cv::Mat sorted_idx, sorted_idx_back, sorted_mat;
+	
+	cv::Mat sorted_idx, sorted_idx_back;
 
 	// get the indices of the InputMat second row data sorted in ascending order
 	cv::sortIdx(featureMat.row(2), sorted_idx, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
@@ -74,41 +67,16 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	// get the indices of the back assignment (so far just for testing)
 	cv::sortIdx(sorted_idx,sorted_idx_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
 
-	// row pointers of sorted mat
-	double *p_r0 = 0;
-	double *p_r1 = 0;
-	double *p_r2 = 0;
-	double *p_r3 = 0; 
-	p_r0 = sorted_featureMat.ptr<double>(0);
-	p_r1 = sorted_featureMat.ptr<double>(1);
-	p_r2 = sorted_featureMat.ptr<double>(2);
-	p_r3 = sorted_featureMat.ptr<double>(3);
-
-	// row pointers of unsorted mat
-	double *p_r0_unsorted = 0;
-	double *p_r1_unsorted = 0;
-	double *p_r2_unsorted = 0;
-	double *p_r3_unsorted = 0;
-	p_r0_unsorted = featureMat.ptr<double>(0);
-	p_r1_unsorted = featureMat.ptr<double>(1);
-	p_r2_unsorted = featureMat.ptr<double>(2);
-	p_r3_unsorted = featureMat.ptr<double>(3);
-
-	//sorting
-	for(int col_iter=0; col_iter<sorted_featureMat.cols; col_iter++)
-	{	
-		p_r0[col_iter] = p_r0_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r1[col_iter] = p_r1_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r2[col_iter] = p_r2_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r3[col_iter] = p_r3_unsorted[sorted_idx.at<int>(0,col_iter)];
-	}
-
+	cv::Mat sorted_featureMat;
+	dspsift_helperlib::sortmatrixcolsbyindices(featureMat,sorted_idx,sorted_featureMat);
 
 	c.stop();
 	std::cout << "time (s): " << c.get_seconds() << std::endl;
 	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
 	std::cout << "time (us): " << c.get_microseconds() << std::endl;
 	
+	//todo call to vlsift with sorted_features
+
 	
 	//------------------------------------------- Aggregate and normalize -------------------------------------------//
 
@@ -128,7 +96,7 @@ void dspsift_helperlib::DSP_SIFT(IplImage* i_image,
 	return;
 }
 
-void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat)
+void dspsift_helperlib::samplescales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat)
 {	
 	/******
 	Eingabedaten: Anzahl der Merkmalspunkte, Merkmalspunkte(4 Dimensionen Vector), Anzahl & Range Skalierungen
@@ -191,8 +159,45 @@ void dspsift_helperlib::sampleScales(double* i_DATAframes, int* i_nframes, dspOp
 	return;
 }
 
+void dspsift_helperlib::sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
+{
+	//cv::Mat sorted_featureMat;
+	o_mat = cv::Mat::zeros(i_mat.rows,i_mat.cols,i_mat.type());
 
-void dspsift_helperlib::sortTest()
+	// row pointers of sorted output mat
+	double *p_r0 = 0;
+	double *p_r1 = 0;
+	double *p_r2 = 0;
+	double *p_r3 = 0; 
+	p_r0 = o_mat.ptr<double>(0);
+	p_r1 = o_mat.ptr<double>(1);
+	p_r2 = o_mat.ptr<double>(2);
+	p_r3 = o_mat.ptr<double>(3);
+
+	// row pointers of unsorted input mat
+	double *p_r0_unsorted = 0;
+	double *p_r1_unsorted = 0;
+	double *p_r2_unsorted = 0;
+	double *p_r3_unsorted = 0;
+	p_r0_unsorted = i_mat.ptr<double>(0);
+	p_r1_unsorted = i_mat.ptr<double>(1);
+	p_r2_unsorted = i_mat.ptr<double>(2);
+	p_r3_unsorted = i_mat.ptr<double>(3);
+
+	//sorting
+	for(int col_iter=0; col_iter<o_mat.cols; col_iter++)
+	{	
+		p_r0[col_iter] = p_r0_unsorted[i_indices.at<int>(0,col_iter)];
+		p_r1[col_iter] = p_r1_unsorted[i_indices.at<int>(0,col_iter)];
+		p_r2[col_iter] = p_r2_unsorted[i_indices.at<int>(0,col_iter)];
+		p_r3[col_iter] = p_r3_unsorted[i_indices.at<int>(0,col_iter)];
+	}
+	return;
+}
+
+
+
+void dspsift_helperlib::sorttest()
 {	
 	std::cout << "\n" << " =========== sortTest() start ========== " << std::endl;
 
