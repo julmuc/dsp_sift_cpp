@@ -26,7 +26,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
     int nframes = 0;
 	
 	// call sift
-    vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes);
+    vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes, i_opt.vlsift_opt);
 	
 	// save variables:
 	memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));

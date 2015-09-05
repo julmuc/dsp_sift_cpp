@@ -1,3 +1,6 @@
+// Copyright (C) 2007-12 Andrea Vedaldi and Brian Fulkerson.
+// All rights reserved.
+
 /** @internal
  ** @file   vlfeat_helperlib.h
  ** @brief   vl_sift based on (c) vlfeat.org &
@@ -32,6 +35,70 @@ typedef struct Pair
 /**************************************** Begin Namespace vlfeat_helperlib *******************************************/
 namespace vlfeat_helperlib
 {
+	/*
+	VL_SIFT() accepts the following options:
+
+	Octaves:: maximum possible
+	Set the number of octave of the DoG scale space.
+
+	Levels:: 3
+	Set the number of levels per octave of the DoG scale space.
+
+	FirstOctave:: 0
+	Set the index of the first octave of the DoG scale space.
+
+	PeakThresh:: 0
+	Set the peak selection threshold.
+
+	EdgeThresh:: 10
+	Set the non-edge selection threshold.
+
+	NormThresh:: -inf
+	Set the minimum l2-norm of the descriptors before
+	normalization. Descriptors below the threshold are set to zero.
+
+	Magnif:: 3
+	Set the descriptor magnification factor. The scale of the
+	keypoint is multiplied by this factor to obtain the width (in
+	pixels) of the spatial bins. For instance, if there are there
+	are 4 spatial bins along each spatial direction, the
+	``side'' of the descriptor is approximatively 4 * MAGNIF.
+
+	WindowSize:: 2
+	Set the variance of the Gaussian window that determines the
+	descriptor support. It is expressend in units of spatial
+	bins.
+
+	Frames::
+	If specified, set the frames to use (bypass the detector). If
+	frames are not passed in order of increasing scale, they are
+	re-orderded.
+
+	Orientations::
+	If specified, compute the orientations of the frames overriding
+	the orientation specified by the 'Frames' option.
+
+	Verbose::
+	If specfified, be verbose (may be repeated to increase the
+	verbosity level).
+	*/
+	typedef struct vl_sift_options
+	{
+		int                verbose; 
+		int                O; //Octaves
+		int                S; //Levels
+		int                o_min;
+		double             edge_thresh;  //-1 will use the default (as in matlab)
+		double             peak_thresh;
+		double             norm_thresh;
+		double             magnif;
+		double             window_size;
+		double            *ikeys;			//
+		int                nikeys; 
+		vl_bool            force_orientations;
+		vl_bool            floatDescriptors;
+	} vl_sift_options;
+
 
 	/******************************************** Function Declarations **********************************************/
 
@@ -58,7 +125,7 @@ namespace vlfeat_helperlib
 	** 
 	** @return todo
 	**/
-	void vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes);
+	void vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts);
 
 	/** ------------------------------------------------------------------
 	** @internal

@@ -1,3 +1,6 @@
+// Copyright (C) 2007-12 Andrea Vedaldi and Brian Fulkerson.
+// All rights reserved.
+
 /** @internal
  ** @file   vlfeat_helperlib.cpp
  ** @brief   vl_sift based on (c) vlfeat.org &
@@ -11,7 +14,7 @@
 
 /******************************************** Function Definitions ***************************************************/
 
-void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes)
+void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* o_DATAframes, int* o_nframes, vl_sift_options opts)
 {	
 	int imHeight, imWidth;
 	imHeight = i_image->height;
@@ -34,27 +37,27 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 		}
 	}
  
-    // VL SIFT computation:
+    // vlsift computation:
     vl_sift_pix const *data;
     int M, N;
     data = (vl_sift_pix*)frame;
     M = i_image->height;
     N = i_image->width;
                                                                                                                        
-    // VL SIFT PARAMETERS
-    int                verbose				= 1; // change to 2 for more verbose..
-    int                O					= -1; //Octaves
-    int                S					= 3; //Levels
-    int                o_min				= 0;
-    double             edge_thresh			= -1;  //-1 will use the default (as in matlab)
-    double             peak_thresh			= -1;
-    double             norm_thresh			= -1;
-    double             magnif				= -1;
-    double             window_size			= -1;
-    double            *ikeys				= 0; //?	//*ikeys_array = 0;????
-    int                nikeys				= -1; //?
-    vl_bool            force_orientations	= 0;
-    vl_bool            floatDescriptors		= 0;
+    // parse vlsift parameters
+    int                _verbose				= opts.verbose; // change to 2 for more verbose..
+    int                _O					= opts.O; //Octaves
+    int                _S					= opts.S; //Levels
+    int                _o_min				= opts.o_min;
+    double             _edge_thresh			= opts.edge_thresh;  //-1 will use the default (as in matlab)
+    double             _peak_thresh			= opts.peak_thresh;
+    double             _norm_thresh			= opts.norm_thresh;
+    double             _magnif				= opts.magnif;
+    double             _window_size			= opts.window_size;
+    double            *ikeys				= opts.ikeys; //?	//*ikeys_array = 0;????
+    int                nikeys				= opts.nikeys; //?
+    vl_bool            force_orientations	= opts.force_orientations;
+    vl_bool            floatDescriptors		= opts.floatDescriptors;
    
 	/* -----------------------------------------------------------------
     *                                                            Do job
@@ -69,20 +72,20 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 	int			i,j,q;
 
 	/* create a filter to process the image */
-	filt = vl_sift_new (M, N, O, S, o_min) ;
+	filt = vl_sift_new (M, N, _O, _S, _o_min) ;
 
-	if (peak_thresh >= 0) 
-		vl_sift_set_peak_thresh(filt, peak_thresh);
-	if (edge_thresh >= 0) 
-		vl_sift_set_edge_thresh(filt, edge_thresh);
-	if (norm_thresh >= 0) 
-		vl_sift_set_norm_thresh(filt, norm_thresh);
-	if (magnif      >= 0) 
-		vl_sift_set_magnif(filt, magnif);
-	if (window_size >= 0) 
-		vl_sift_set_window_size(filt, window_size);
+	if (_peak_thresh >= 0) 
+		vl_sift_set_peak_thresh(filt, _peak_thresh);
+	if (_edge_thresh >= 0) 
+		vl_sift_set_edge_thresh(filt, _edge_thresh);
+	if (_norm_thresh >= 0) 
+		vl_sift_set_norm_thresh(filt, _norm_thresh);
+	if (_magnif      >= 0) 
+		vl_sift_set_magnif(filt, _magnif);
+	if (_window_size >= 0) 
+		vl_sift_set_window_size(filt, _window_size);
 
-	if (verbose)
+	if (_verbose)
 	{
 		printf("vl_sift: filter settings:\n") ;
 		printf("vl_sift:   octaves      (O)      = %d\n", vl_sift_get_noctaves(filt));
@@ -108,7 +111,7 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 		VlSiftKeypoint const *keys  = 0;
 		int                   nkeys = 0;
 
-		if (verbose)
+		if (_verbose)
 		{
 			printf ("vl_sift: processing octave %d\n", vl_sift_get_octave_index(filt));
 		}
@@ -127,7 +130,7 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 		if (err) 
 			break;
 
-		if (verbose > 1)
+		if (_verbose > 1)
 		{
 			printf("vl_sift: GSS octave %d computed\n", vl_sift_get_octave_index(filt));
 		}
@@ -140,7 +143,7 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
 			nkeys = vl_sift_get_nkeypoints(filt);
 			i     = 0;
 
-			if (verbose > 1) 
+			if (_verbose > 1) 
 			{
 				printf ("vl_sift: detected %d (unoriented) keypoints\n", nkeys);
 			}
@@ -250,7 +253,7 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, vl_uint8* o_DATAdescr, double* 
  
 
 
-	if (verbose)
+	if (_verbose)
 		printf("vl_sift: found %d keypoints\n", (*o_nframes));
 
 	// save variables:

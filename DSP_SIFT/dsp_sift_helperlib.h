@@ -28,6 +28,7 @@ namespace dspsift_helperlib
 		double sc_min;			// scale sampling lower limit
 		double sc_max;			// scale sampling upper limit. Scales are sampled from (sc_min * s, sc_max * s) where s is the detected scale
 		int ns;					// number of scales
+		vlfeat_helperlib::vl_sift_options vlsift_opt;
 	} dspOptions ;
 
 	/******************************************** Function Declarations **********************************************/
