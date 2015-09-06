@@ -29,11 +29,11 @@ int main(int argc, char** argv)
 
 	// load template image:
 	// needs to be grayscale image
-    IplImage* Timage = cvLoadImage("C:/Users/Julian/Documents/Visual Studio 2010/Projects/DSP_SIFT/Debug/Lena.png",0);
- 
+   // IplImage* Timage = cvLoadImage("C:/Users/Julian/Documents/Visual Studio 2010/Projects/dsp_sift_cpp/Debug/Lena.png",0);
+	IplImage* Timage = cvLoadImage("C:/Users/Julian/Documents/Visual Studio 2010/Projects/dsp_sift_cpp/Debug/img1.jpg",0);
 	// static allocation and zero-initialization of arrays for features and descriptors
-    double* TFrames = (double*)calloc(4*20000, sizeof(double));
-    float* TDescr  = (float*)calloc(128*20000, sizeof(float));
+    double* TFrames = (double*)calloc(4*50000, sizeof(double));
+    float* TDescr  = (float*)calloc(128*50000, sizeof(float));
 	
 	// stores number of features
     int Tnframes = 0;

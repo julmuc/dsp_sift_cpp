@@ -109,7 +109,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	memcpy(o_DATAdescr, all_output_desc, 128*num_sampledframes*sizeof(float));
 	
 	
-	float* all_descr = (float*)calloc(128*20000, sizeof(float));;
+	float* all_descr = (float*)calloc(128*50000, sizeof(float));;
 	memcpy(all_descr, all_output_desc, 128*num_sampledframes*sizeof(float));
 	all_descr = (float*)realloc(all_descr, 128*sizeof(float)*num_sampledframes);
 
