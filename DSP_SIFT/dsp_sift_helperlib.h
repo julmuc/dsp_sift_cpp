@@ -66,15 +66,25 @@ namespace dspsift_helperlib
 
 	/** ------------------------------------------------------------------
 	** @internal
-	** @brief Sorts the input matrix columns according to the given indices 
+	** @brief Sorts the input matrix (4xN) columns according to the given indices 
 	**
 	** @param i_mat unsorted input matrix 
 	** @param i_indices input indices for sort order of columns
 	** @param o_mat sorted output matrix
 	** 
 	**/
-	void sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
+	void sort_4Row_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
 
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Sorts the input float32 matrix (MxN) columns according to the given indices 
+	**
+	** @param i_mat unsorted input float32 matrix 
+	** @param i_indices input indices for sort order of columns
+	** @param o_mat sorted output matrix
+	** 
+	**/
+	void sort_genericf32_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
 
 	/** ------------------------------------------------------------------
 	** @internal

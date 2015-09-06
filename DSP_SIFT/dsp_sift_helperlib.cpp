@@ -43,8 +43,8 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	//--------------------------------- Compute un-normalized SIFT at each scales -----------------------------------//
 
-//	platformstl::performance_counter c;
-//	c.start();
+	platformstl::performance_counter c;
+	//c.start();
 	
 	cv::Mat sorted_idx, sorted_idx_back;
 
@@ -55,7 +55,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	cv::sortIdx(sorted_idx,sorted_idx_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
 
 	cv::Mat sorted_featureMat;
-	dspsift_helperlib::sortmatrixcolsbyindices(featureMat,sorted_idx,sorted_featureMat);
+	dspsift_helperlib::sort_4Row_matrixcolsbyindices(featureMat,sorted_idx,sorted_featureMat);
 
 //	c.stop();
 //	std::cout << "time (s): " << c.get_seconds() << std::endl;
@@ -74,14 +74,14 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	_dsp_opt.vlsift_opt.ikeys = input_frames;
 	_dsp_opt.vlsift_opt.nikeys = sorted_featureMat.cols;
 	_dsp_opt.vlsift_opt.floatDescriptors = 1;
-	int numframes = 0;
+	int num_sampledframes = 0;
 
 	//compute sift descriptors of all scaled features
-	vlfeat_helperlib::vlsift(i_image, all_output_desc, output_frames, &numframes, _dsp_opt.vlsift_opt);
+	vlfeat_helperlib::vlsift(i_image, all_output_desc, output_frames, &num_sampledframes, _dsp_opt.vlsift_opt);
 
 	// show image
 	// draw each feature region as a circle
-    for(int i=0; i<numframes; i++)
+    for(int i=0; i<num_sampledframes; i++)
 	{	
         cvCircle(i_image,																// image
 				 cvPoint((int)output_frames[0+i*4], (int)output_frames[1+i*4]),			// center (x,y)
@@ -105,28 +105,57 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
     cvShowImage("Sampled Features", i_image);
 
 		// save variables:
-	memcpy(o_DATAframes, output_frames, 4*numframes*sizeof(double));
-	memcpy(o_DATAdescr, all_output_desc, 128*numframes*sizeof(float));
-
-
-	// todo
-	// transform back to matrix
+	memcpy(o_DATAframes, output_frames, 4*num_sampledframes*sizeof(double));
+	memcpy(o_DATAdescr, all_output_desc, 128*num_sampledframes*sizeof(float));
 	
+	
+	float* all_descr = (float*)calloc(128*20000, sizeof(float));;
+	memcpy(all_descr, all_output_desc, 128*num_sampledframes*sizeof(float));
+	all_descr = (float*)realloc(all_descr, 128*sizeof(float)*num_sampledframes);
+
+	// TODO: CHECK IF CORRECT
+	// transform back to matrix
+	int batchSize = num_sampledframes/_dsp_opt.ns;	
 	// fill sampledfeatureMat
 	for(int row_iter=0; row_iter<sorted_featureMat.rows; row_iter++)
 	{
 		double* Mat_row = sorted_featureMat.ptr<double>(row_iter);
 		for(int col_iter=0; col_iter<sorted_featureMat.cols; col_iter++)
 		{		
-			Mat_row[col_iter] = output_frames[4*(col_iter%numframes)+row_iter];
+			Mat_row[col_iter] = output_frames[4*(col_iter%batchSize)+row_iter];
 		}
 	}
 	// fill descriptorMat
+	int dimDescriptor = 128;
+	cv::Mat descriptorMat;
+	descriptorMat = cv::Mat::zeros(dimDescriptor, num_sampledframes, CV_32F);	// 128x(ns*nf) float matrix
+	for(int row_iter=0; row_iter<descriptorMat.rows; row_iter++)
+	{
+		float* Mat_row = descriptorMat.ptr<float>(row_iter);
+		for(int col_iter=0; col_iter<descriptorMat.cols; col_iter++)
+		{		
+			Mat_row[col_iter] = all_descr[128*(col_iter%batchSize)+row_iter];
+		}
+	}
 
 	// sort back to original order
+	c.start();
+	cv::Mat out_featureMat;
+	dspsift_helperlib::sort_4Row_matrixcolsbyindices(sorted_featureMat,sorted_idx_back,out_featureMat);	//only 4 rows
+	c.stop();
+	std::cout << "time (s): " << c.get_seconds() << std::endl;
+	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+	std::cout << "time (us): " << c.get_microseconds() << std::endl;
+	
+	c.start();
+	cv::Mat out_descriptorMat;
+	dspsift_helperlib::sort_genericf32_matrixcolsbyindices(descriptorMat,sorted_idx_back,out_descriptorMat);	//need 128 rows
+	c.stop();
+	std::cout << "time (s): " << c.get_seconds() << std::endl;
+	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+	std::cout << "time (us): " << c.get_microseconds() << std::endl;
 
-
-
+	//dspsift_helperlib::sorttest();
 
 	//------------------------------------------- Aggregate and normalize -------------------------------------------//
 
@@ -138,7 +167,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
-	*o_nframes = numframes;
+	*o_nframes = num_sampledframes;
 
 	free(siftFrames);
 	free(siftDescr);
@@ -211,7 +240,7 @@ void dspsift_helperlib::samplescales(double* i_DATAframes, int* i_nframes, dspOp
 	return;
 }
 
-void dspsift_helperlib::sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
+void dspsift_helperlib::sort_4Row_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
 {
 	//cv::Mat sorted_featureMat;
 	o_mat = cv::Mat::zeros(i_mat.rows,i_mat.cols,i_mat.type());
@@ -246,6 +275,28 @@ void dspsift_helperlib::sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indic
 	}
 	return;
 }
+
+void dspsift_helperlib::sort_genericf32_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
+{	
+	o_mat = cv::Mat::zeros(i_mat.rows,i_mat.cols,i_mat.type());
+
+	float *row_out_ptr = 0;
+	float *row_input_ptr = 0;
+
+	for(int row_iter=0; row_iter<o_mat.rows; row_iter++)
+	{
+		row_out_ptr = o_mat.ptr<float>(row_iter);
+		row_input_ptr =  i_mat.ptr<float>(row_iter);
+
+		for(int col_iter=0; col_iter<o_mat.cols; col_iter++)
+		{	
+			row_out_ptr[col_iter] = row_input_ptr[i_indices.at<int>(0,col_iter)];
+		}
+	}
+	return;
+}
+
+
 
 void dspsift_helperlib::transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* &o_pDarray)
 {
@@ -316,13 +367,22 @@ void dspsift_helperlib::sorttest()
 	p_r2_unsorted = InputMat.ptr<double>(2);
 	p_r3_unsorted = InputMat.ptr<double>(3);
 
+	double *row_ptr = 0;
+	double *row_input_ptr = 0;
 
-	for(int col_iter=0; col_iter<sorted_mat.cols; col_iter++)
-	{	
-		p_r0[col_iter] = p_r0_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r1[col_iter] = p_r1_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r2[col_iter] = p_r2_unsorted[sorted_idx.at<int>(0,col_iter)];
-		p_r3[col_iter] = p_r3_unsorted[sorted_idx.at<int>(0,col_iter)];
+	for(int row_iter=0; row_iter<sorted_mat.rows; row_iter++)
+	{
+		row_ptr = sorted_mat.ptr<double>(row_iter);
+		row_input_ptr =  InputMat.ptr<double>(row_iter);
+
+		for(int col_iter=0; col_iter<sorted_mat.cols; col_iter++)
+		{	
+			row_ptr[col_iter] = row_input_ptr[sorted_idx.at<int>(0,col_iter)];
+			//p_r0[col_iter] = p_r0_unsorted[sorted_idx.at<int>(0,col_iter)];
+			//p_r1[col_iter] = p_r1_unsorted[sorted_idx.at<int>(0,col_iter)];
+			//p_r2[col_iter] = p_r2_unsorted[sorted_idx.at<int>(0,col_iter)];
+			//p_r3[col_iter] = p_r3_unsorted[sorted_idx.at<int>(0,col_iter)];
+		}
 	}
 	std::cout << "sorted_mat = " << std::endl << " " << sorted_mat << std::endl << std::endl;
 	std::cout << "\n" << " =========== sortTest() end ========== " << std::endl;
