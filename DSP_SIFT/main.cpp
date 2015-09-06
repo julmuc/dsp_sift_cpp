@@ -48,9 +48,9 @@ int main(int argc, char** argv)
     TFrames = (double*)realloc(TFrames, 4*sizeof(double)*Tnframes); // = Y X Scale Angle
     TDescr = (float*)realloc(TDescr, 128*sizeof(float)*Tnframes);
     
-	// draw each feature + descriptor region as a circle
-    for(int i=0; i<Tnframes; i++){
- 
+	// draw each feature region as a circle
+    for(int i=0; i<Tnframes; i++)
+	{
         cvCircle(Timage,													// image
 				 cvPoint((int)TFrames[0+i*4], (int)TFrames[1+i*4]),			// center (x,y)
 				 (int)TFrames[2+i*4],										// radius
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     }
 	
 	// show image
-    cvShowImage("FrameT", Timage);
+    cvShowImage("Final Output Features", Timage);
     cvWaitKey(0);
 
 	free(TFrames);

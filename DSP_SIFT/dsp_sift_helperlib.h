@@ -12,9 +12,12 @@
 
 /************************************************** Includes *********************************************************/
 #include <opencv2\core\core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include "vlfeat_helperlib.h"
 #include "debug_helper.h"
 #include <platformstl\performance\performance_counter.hpp>
+
 
 /************************************************** Structures *******************************************************/
 
@@ -71,6 +74,17 @@ namespace dspsift_helperlib
 	** 
 	**/
 	void sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
+
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Transform scaled keypoints matrix to double array
+	**
+	** @param i_Dmat input matrix (type double)
+	** @param o_pDarray output pointer to double array
+	** 
+	**/
+	void transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* &o_pDarray);
 
 	// Debug methods
 	void sorttest();

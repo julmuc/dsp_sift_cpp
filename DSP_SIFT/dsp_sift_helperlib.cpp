@@ -28,10 +28,6 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	
 	// call sift
     vlfeat_helperlib::vlsift(i_image, siftDescr, siftFrames, &nframes, _dsp_opt.vlsift_opt);
-	
-	//// save variables:
-	//memcpy(o_DATAframes, siftFrames, 4*nframes*sizeof(double));
-	//memcpy(o_DATAdescr, siftDescr, 128*nframes*sizeof(vl_uint8));
 
 	// reallocate memory block (in case to much space allocated before) 
     siftFrames = (double*)realloc(siftFrames, 4*sizeof(double)*nframes); // = Y X Scale Angle
@@ -47,79 +43,90 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	//--------------------------------- Compute un-normalized SIFT at each scales -----------------------------------//
 
-	platformstl::performance_counter c;
-
-	/******************** DEBUG ******************/
-	//c.start();
-	//dspsift_helperlib::sorttest();
-	//c.stop();
-	//   
-	//std::cout << "time (s): " << c.get_seconds() << std::endl;
-	//   std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
-	//   std::cout << "time (us): " << c.get_microseconds() << std::endl;
-	/******************** DEBUG ******************/
-	c.start();
+//	platformstl::performance_counter c;
+//	c.start();
 	
 	cv::Mat sorted_idx, sorted_idx_back;
 
 	// get the indices of the InputMat second row data sorted in ascending order
 	cv::sortIdx(featureMat.row(2), sorted_idx, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
 
-	// get the indices of the back assignment (so far just for testing)
+	// get the indices of the back assignment
 	cv::sortIdx(sorted_idx,sorted_idx_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
 
 	cv::Mat sorted_featureMat;
 	dspsift_helperlib::sortmatrixcolsbyindices(featureMat,sorted_idx,sorted_featureMat);
 
-	c.stop();
-	std::cout << "time (s): " << c.get_seconds() << std::endl;
-	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
-	std::cout << "time (us): " << c.get_microseconds() << std::endl;
+//	c.stop();
+//	std::cout << "time (s): " << c.get_seconds() << std::endl;
+//	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+//	std::cout << "time (us): " << c.get_microseconds() << std::endl;
 	
-	//todo call to vlsift with sorted_features
-
 	double* output_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
-    void* output_desc  = (float*)calloc(128*sorted_featureMat.cols, sizeof(float));
+    double* input_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
+	void* all_output_desc  = (float*)calloc(128*sorted_featureMat.cols, sizeof(float));
 
-	// ======================== start:  parse scaled keypoints to array form
-	double* input_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
-	//_dsp_opt.vlsift_opt.ikeys = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
+	//  transform scaled keypoints mat to double array
+	dspsift_helperlib::transformKeypointMat_to_Array(sorted_featureMat,input_frames);
 
-
-	for(int nframe=0; nframe<sorted_featureMat.cols; nframe++)
-	{
-		input_frames[4*nframe + 0] = sorted_featureMat.at<double>(0,nframe);
-		input_frames[4*nframe + 1] = sorted_featureMat.at<double>(1,nframe);
-		input_frames[4*nframe + 2] = sorted_featureMat.at<double>(2,nframe);
-		input_frames[4*nframe + 3] = sorted_featureMat.at<double>(3,nframe);
-
-		if(nframe<5)
-		{	
-			std::cout << "col: " << nframe << std::endl;
-			std::cout << "x: " << sorted_featureMat.at<double>(0,nframe) << std::endl;
-			std::cout << "x via ptr: " << input_frames[4*nframe + 0] << std::endl;
-			std::cout << "y: " << sorted_featureMat.at<double>(1,nframe) << std::endl;
-			std::cout << "scale: " << sorted_featureMat.at<double>(2,nframe) << std::endl;
-			std::cout << "angle: " << sorted_featureMat.at<double>(3,nframe) << std::endl;
-		}
-	}
-
-	// ======================== end:  parse scaled keypoints to array form
-
+	// set new options for computation of sift descriptors only (no sift feature detection!)
 	_dsp_opt.vlsift_opt.ikeys_provided = true;
 	_dsp_opt.vlsift_opt.ikeys = input_frames;
-	//std::memcpy(_dsp_opt.vlsift_opt.ikeys, input_frames,sorted_featureMat.rows*sorted_featureMat.cols*sizeof(double));
 	_dsp_opt.vlsift_opt.nikeys = sorted_featureMat.cols;
 	_dsp_opt.vlsift_opt.floatDescriptors = 1;
-
 	int numframes = 0;
-	vlfeat_helperlib::vlsift(i_image, output_desc, output_frames, &numframes, _dsp_opt.vlsift_opt);
 
-	
+	//compute sift descriptors of all scaled features
+	vlfeat_helperlib::vlsift(i_image, all_output_desc, output_frames, &numframes, _dsp_opt.vlsift_opt);
+
+	// show image
+	// draw each feature region as a circle
+    for(int i=0; i<numframes; i++)
+	{	
+        cvCircle(i_image,																// image
+				 cvPoint((int)output_frames[0+i*4], (int)output_frames[1+i*4]),			// center (x,y)
+				 (int)output_frames[2+i*4],												// radius
+				 cvScalar(255, 0, 0, 0),												// colour
+				 1,																		// thickness
+				 8,																		// linetype
+				 0);																	// shift
+    }
+	// draw input sift features in black
+	for(int i=0; i<nframes; i++)
+	{
+        cvCircle(i_image,															// image
+				 cvPoint((int)siftFrames[0+i*4], (int)siftFrames[1+i*4]),			// center (x,y)
+				 (int)siftFrames[2+i*4],											// radius
+				 cvScalar(0, 255, 255),												// colour
+				 1,																	// thickness
+				 8,																	// linetype
+				 0);																// shift
+    }
+    cvShowImage("Sampled Features", i_image);
 
 		// save variables:
 	memcpy(o_DATAframes, output_frames, 4*numframes*sizeof(double));
-	memcpy(o_DATAdescr, output_desc, 128*numframes*sizeof(float));
+	memcpy(o_DATAdescr, all_output_desc, 128*numframes*sizeof(float));
+
+
+	// todo
+	// transform back to matrix
+	
+	// fill sampledfeatureMat
+	for(int row_iter=0; row_iter<sorted_featureMat.rows; row_iter++)
+	{
+		double* Mat_row = sorted_featureMat.ptr<double>(row_iter);
+		for(int col_iter=0; col_iter<sorted_featureMat.cols; col_iter++)
+		{		
+			Mat_row[col_iter] = output_frames[4*(col_iter%numframes)+row_iter];
+		}
+	}
+	// fill descriptorMat
+
+	// sort back to original order
+
+
+
 
 	//------------------------------------------- Aggregate and normalize -------------------------------------------//
 
@@ -136,7 +143,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	free(siftFrames);
 	free(siftDescr);
 	free(output_frames);
-	free(output_desc);
+	free(all_output_desc);
 	free(input_frames);
 	return;
 }
@@ -240,7 +247,27 @@ void dspsift_helperlib::sortmatrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indic
 	return;
 }
 
+void dspsift_helperlib::transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* &o_pDarray)
+{
+	for(int nframe=0; nframe<i_Dmat.cols; nframe++)
+	{
+		o_pDarray[4*nframe + 0] = i_Dmat.at<double>(0,nframe);
+		o_pDarray[4*nframe + 1] = i_Dmat.at<double>(1,nframe);
+		o_pDarray[4*nframe + 2] = i_Dmat.at<double>(2,nframe);
+		o_pDarray[4*nframe + 3] = i_Dmat.at<double>(3,nframe);
 
+		if(nframe<5)
+		{	
+			std::cout << "col: " << nframe << std::endl;
+			std::cout << "x: " << i_Dmat.at<double>(0,nframe) << std::endl;
+			std::cout << "x via ptr: " << o_pDarray[4*nframe + 0] << std::endl;
+			std::cout << "y: " << i_Dmat.at<double>(1,nframe) << std::endl;
+			std::cout << "scale: " << i_Dmat.at<double>(2,nframe) << std::endl;
+			std::cout << "angle: " << i_Dmat.at<double>(3,nframe) << std::endl;
+		}
+	}
+
+}
 
 void dspsift_helperlib::sorttest()
 {	

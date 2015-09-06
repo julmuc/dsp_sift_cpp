@@ -25,8 +25,6 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
     uchar* Ldata = (uchar*)i_image->imageData;
 	int ws = i_image->widthStep;
 	int chns = i_image->nChannels;
-	//std::cout << "widthStep: " <<i_image->widthStep << std::endl;
-	//std::cout << "channels: " <<i_image->nChannels << std::endl;
 
 
 	for(int i=0; i<imHeight; i++)
@@ -65,7 +63,7 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
 	//check if input keys are sorted
 	if(_ikeys_provided)
 	{	
-		 std::memcpy(ikeys_array, opts.ikeys,4*nikeys*sizeof(double));
+		 std::memcpy(ikeys_array, opts.ikeys,4*nikeys*sizeof(double)); // make hard copy
 		ikeys = ikeys_array;
 		if (!check_sorted(ikeys, nikeys)) 
 		{
