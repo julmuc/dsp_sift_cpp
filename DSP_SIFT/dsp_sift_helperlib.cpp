@@ -68,13 +68,52 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	}
 
 
-	//------------------------------------------- Aggregate and normalize -------------------------------------------//
+	//------------------------------------------- pool and normalize -------------------------------------------//
 
+	int batchsize = allfeatureMat.cols/_dsp_opt.ns;
+	cv::Mat out_featureMat, firstbatch;
 
-	// todo
+	firstbatch = allfeatureMat.colRange(0,batchsize).rowRange(0,allfeatureMat.rows);	// 4 x batchsize
+	firstbatch.copyTo(out_featureMat);
 
+	std::cout << "out_featureMat.cols: " << out_featureMat.cols << " .rows: " << out_featureMat.rows << std::endl;
 
+	//cv::Mat aux;
+	//cv::Mat InputMat = cv::Mat::eye(3,3,CV_64F);
+	//std::cout << "InputMat = " << std::endl << " " << InputMat << std::endl << std::endl;
+	//cv::Mat dest(InputMat.colRange(0,2));
+	//cv::Mat OUTMAT;// = cv::Mat::zeros(2, InputMat.cols, CV_64F);
+	////aux = InputMat.colRange(0,InputMat.cols).rowRange(0,1);
+	////OUTMAT.copyTo(dest);
+	//dest.copyTo(OUTMAT);
+	//std::cout << "OUTMAT = " << std::endl << " " << OUTMAT << std::endl << std::endl;
+	
+	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,0) << std::endl;
+	//}
+	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,out_featureMat.cols-1) << std::endl;
+	//}
 
+	int row_nr_scale = 2;
+	double* Mat_row = out_featureMat.ptr<double>(row_nr_scale);
+	for(int col_iter=0; col_iter<batchsize; col_iter++)
+	{
+		Mat_row[col_iter] = siftFrames[4*(col_iter)+row_nr_scale];
+	}
+	
+	
+	//std::cout << "frames after overwriting " << std::endl;
+	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,0) << std::endl;
+	//}
+	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,out_featureMat.cols-1) << std::endl;
+	//}
 
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
