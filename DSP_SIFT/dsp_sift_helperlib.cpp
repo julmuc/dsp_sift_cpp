@@ -56,16 +56,18 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 											o_DATAdescr,
 											o_DATAframes);
 	
-	std::cout << "Output frames in original order" << std::endl;
-	for(int row_iter=0; row_iter<allfeatureMat.rows; row_iter++)
-	{
-		std::cout << "row: " << row_iter << " value: " << allfeatureMat.at<double>(row_iter,19) << std::endl;
-	}
-	std::cout << "Output descriptors in original order" << std::endl;
-	for(int row_iter=0; row_iter<alldescriptorMat.rows; row_iter++)
-	{
-		std::cout << "row: " << row_iter << " value: " << alldescriptorMat.at<float>(row_iter,19) << std::endl;
-	}
+	/*********************************** DEBUG *****************************/
+	//std::cout << "Output frames in original order" << std::endl;
+	//for(int row_iter=0; row_iter<allfeatureMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << allfeatureMat.at<double>(row_iter,19) << std::endl;
+	//}
+	//std::cout << "Output descriptors in original order" << std::endl;
+	//for(int row_iter=0; row_iter<alldescriptorMat.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << alldescriptorMat.at<float>(row_iter,19) << std::endl;
+	//}
+	/*********************************** DEBUG *****************************/
 
 
 	//------------------------------------------- pool and normalize -------------------------------------------//
@@ -114,6 +116,35 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	//{
 	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,out_featureMat.cols-1) << std::endl;
 	//}
+
+	cv::Mat out_pooledDescriptors;
+	// pooling --- working !
+	c.start();
+	dspsift_helperlib::pool_descriptors(alldescriptorMat,batchsize,_dsp_opt.ns,out_pooledDescriptors);
+	c.stop();
+	std::cout << "time (s): " << c.get_seconds() << std::endl;
+	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
+	std::cout << "time (us): " << c.get_microseconds() << std::endl;
+	
+
+	/*********************************** DEBUG *****************************/
+	//int nf = 3;
+	//int ns = 3;
+	//cv::Mat InputMat = (cv::Mat_<float>(4,9) <<		1,		2,		3,		2,		3,		4,		3,		4,		5,
+	//												1,		2,		3,		2,		3,		4,		3,		4,		5,
+	//												1,		2,		3,		2,		3,		4,		3,		4,		5,
+	//												1,		2,		3,		2,		3,		4,		3,		4,		5);
+	//cv::Mat outMat;
+	//std::cout << "InputMat = " << std::endl << " " << InputMat << std::endl << std::endl;
+	//dspsift_helperlib::pool_descriptors(InputMat,nf,ns,outMat);
+	/*********************************** DEBUG *****************************/
+
+
+	std::cout << "pooled output descriptors" << std::endl;
+	for(int row_iter=0; row_iter<out_pooledDescriptors.rows; row_iter++)
+	{
+		std::cout << "row: " << row_iter << " value: " << out_pooledDescriptors.at<float>(row_iter,0) << std::endl;
+	}
 
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
@@ -311,7 +342,25 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	return;
 }
 
-
+void dspsift_helperlib::pool_descriptors(cv::Mat& i_descriptorMat, int batchsize, int ns, cv::Mat& o_pooleddescriptorMat)
+{
+	int dim_d = i_descriptorMat.rows;
+	o_pooleddescriptorMat = cv::Mat::zeros(i_descriptorMat.rows,batchsize,i_descriptorMat.type());
+	
+	for(int i=0; i<batchsize; i++)
+	{
+		cv::Mat tmp = cv::Mat::zeros(dim_d,ns,CV_32F);
+		for(int j=0; j<ns; j++)
+		{
+			i_descriptorMat.col(batchsize*j+i).copyTo(tmp.col(j));
+		}
+		//std::cout << "tmp = " << std::endl << " " << tmp << std::endl << std::endl;
+		cv::reduce(tmp,o_pooleddescriptorMat.col(i),1,CV_REDUCE_AVG,-1);
+	}
+	//std::cout << "pooledMat = " << std::endl << " " << o_pooleddescriptorMat << std::endl << std::endl;
+	debug("pool_descriptors successfully ended");
+	return;
+}
 
 
 

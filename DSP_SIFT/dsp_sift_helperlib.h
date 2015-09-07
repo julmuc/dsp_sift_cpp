@@ -85,6 +85,18 @@ namespace dspsift_helperlib
 
 	/** ------------------------------------------------------------------
 	** @internal
+	** @brief Pools all sift descriptors
+	**
+	** @param i_descriptorMat input mat containing all descriptors as columns [dim_descr x (batchsize * ns)]
+	** @param batchsize size of one batch (original size of input features to dsp-sift)
+	** @param ns number of scales
+	** @param o_pooleddescriptorMat pooled descriptors output matrix [dim_descr x batchsize]
+	** 
+	**/
+	void pool_descriptors(cv::Mat& i_descriptorMat, int batchsize, int ns, cv::Mat& o_pooleddescriptorMat);
+
+	/** ------------------------------------------------------------------
+	** @internal
 	** @brief Sorts the input matrix (4xN) columns according to the given indices 
 	**
 	** @param i_mat unsorted input matrix 
