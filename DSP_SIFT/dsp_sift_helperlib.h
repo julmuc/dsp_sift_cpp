@@ -62,7 +62,26 @@ namespace dspsift_helperlib
 	** @param o_sampledfeatureMat sampled output matrix
 	** 
 	**/
-	void samplescales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
+	void sample_scales(double* i_DATAframes, int* i_nframes, dspOptions i_opt, cv::Mat &o_sampledfeatureMat);
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Computes all sift descriptors at all scales
+	**
+	** @param i_image input greyscale image
+	** @param i_featureMat input matrix containing all sift features (as columns) 
+	** @param i_opt scale options
+	** @param o_featureMat output feature matrix (features as columns)
+	** @param o_descriptorMat output descriptor matrix (descriptors as columns)
+	** 
+	**/
+	void get_all_descriptors(IplImage* i_image,
+							cv::Mat& i_featureMat,
+							dspOptions i_opt,
+							cv::Mat &o_featureMat,
+							cv::Mat &o_descriptorMat,
+							float* o_DATAdescr, //TMP
+			 				double* o_DATAframes); //TMP
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -94,7 +113,7 @@ namespace dspsift_helperlib
 	** @param o_pDarray output pointer to double array
 	** 
 	**/
-	void transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* &o_pDarray);
+	void transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* o_pDarray);
 
 	// Debug methods
 	void sorttest();

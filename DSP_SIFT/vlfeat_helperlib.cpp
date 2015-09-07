@@ -188,14 +188,14 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
 			if (nikeys >= 0)
 			{	
 
-				if(i<5)
-				{	
-					std::cout << "vlsift frame: " << i << std::endl;
-					std::cout << "x: " << ikeys[4 * i + 0] << std::endl;
-					std::cout << "y: " << ikeys[4 * i + 1] << std::endl;
-					std::cout << "scale: " << ikeys[4 * i + 2] << std::endl;
-					std::cout << "angle: " << ikeys[4 * i + 3] << std::endl;
-				}
+				//if(i<5)
+				//{	
+				//	std::cout << "vlsift frame: " << i << std::endl;
+				//	std::cout << "x: " << ikeys[4 * i + 0] << std::endl;
+				//	std::cout << "y: " << ikeys[4 * i + 1] << std::endl;
+				//	std::cout << "scale: " << ikeys[4 * i + 2] << std::endl;
+				//	std::cout << "angle: " << ikeys[4 * i + 3] << std::endl;
+				//}
 
 				vl_sift_keypoint_init(filt, &ik, ikeys[4 * i + 1] - 1, ikeys[4 * i + 0] - 1, ikeys[4 * i + 2]);
 
@@ -237,9 +237,15 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
 					reserved  += 2*nkeys;
 					frames = (double*)realloc(frames, 4*sizeof(double)*reserved);
 					if(!floatDescriptors)
+					{
 						descr  = (vl_uint8*)realloc(descr,  128*sizeof(vl_uint8)*reserved);
+						std::cout << "Allocated memory for " << reserved << " vl_uint8 variables" << std::endl;
+					}
 					else
+					{
 						descr  = (float*)realloc(descr,  128*sizeof(float)*reserved);
+						std::cout << "Allocated memory for 128*" << reserved << " float variables" << std::endl;
+					}
 				}
 
 				/* Save back with MATLAB conventions. Notice that the input
@@ -252,11 +258,11 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
 				/*************************** DEBUG *******************/
 				if(*o_nframes < 5)
 				{	
-					debug(*o_nframes);
-					debug(frames[4*(*o_nframes) + 0]);
-					debug(frames[4*(*o_nframes) + 1]);
-					debug(frames[4*(*o_nframes) + 2]);
-					debug(frames[4*(*o_nframes) + 3]);
+					//debug(*o_nframes);
+					//debug(frames[4*(*o_nframes) + 0]);
+					//debug(frames[4*(*o_nframes) + 1]);
+					//debug(frames[4*(*o_nframes) + 2]);
+					//debug(frames[4*(*o_nframes) + 3]);
 
 				}
 				/*************************** DEBUG *******************/
@@ -273,8 +279,13 @@ void vlfeat_helperlib::vlsift(IplImage* i_image, void* o_DATAdescr, double* o_DA
 				{
 					for (j=0; j<128; ++j)
 					{
-						float x = rbuf[j];
+						//float x = rbuf[j];
+						float x = 512.0F * rbuf[j];
 						((float*)descr) [128 * (*o_nframes) + j] = x;
+						/*if(*o_nframes<1)
+						{
+							std::cout << "j: " << j << "value: " << x << std::endl;
+						}*/
 					}
 				}
 				++(*o_nframes);
