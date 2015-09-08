@@ -146,6 +146,46 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 		std::cout << "row: " << row_iter << " value: " << out_pooledDescriptors.at<float>(row_iter,0) << std::endl;
 	}
 
+	// normalizing
+
+	//reshape pooledDescriptormat to 1d array
+	cv::Mat outdescrArray;
+	outdescrArray = cv::Mat(out_pooledDescriptors.t()).reshape(1,1);
+
+	std::cout << "rows: " << outdescrArray.rows << " cols: " << outdescrArray.cols << std::endl;
+	for(int col_iter=0; col_iter<130; col_iter++)
+	{
+		std::cout << "col: " << col_iter << " value: " << outdescrArray.at<float>(0,col_iter) << std::endl;
+	}
+	// TODO
+//	int nel = ndim*nf;
+//            
+//	for (int i = 0; i < nel; ++i)
+//		d_out[i] = d[i];
+//	
+//	for (int i = 0; i < nf; ++i)
+//	{	
+//		float norm = normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+//	
+//   	   for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+//		{
+//			if (d_out[bin] > 0.0667)
+//               d_out[bin] = 0.0667;
+//// 			if (d_out[bin] > 15.0/255.0)
+//// 				d_out[bin] = 15.0/225.0;
+//		}
+//		normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+//        
+//        for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+//        {
+//            float x = 512.0F * d_out[bin];
+//            x = (x < 255.0F) ? x : 255.0F ;
+//            d_char[bin] = (unsigned char) x ;
+//        }
+//        d_out += ndim;
+//        d_char += ndim;
+//	}  
+
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
 	*o_nframes = allfeatureMat.cols;

@@ -178,6 +178,36 @@ namespace vlfeat_helperlib
 	**/
 	vl_bool check_sorted(double const * keys, vl_size nkeys);
 
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Normalizes the histogram 
+	**
+	** @param begin pointer to begin of the array
+	** @param end pointer to end of the array
+	**
+	** @return norm normalization factor (integral value)
+	**/
+	inline float normalize_histogram(float* begin, float* end);
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Fast real sqrt(x) approximation
+	**
+	** @param x float value
+	**
+	** @return sqrt(x) square root of x
+	**/
+	inline float vl_fast_resqrt_f(float x);
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief The function computes a fast approximation of sqrt(x)
+	**
+	** @param x float value
+	**
+	** @return sqrt(x) square root of x
+	**/
+	inline float vl_fast_sqrt_f (float x);
 
 } 
 /***************************************** End Namespace vlfeat_helperlib ********************************************/
