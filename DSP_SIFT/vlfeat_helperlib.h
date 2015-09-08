@@ -187,7 +187,7 @@ namespace vlfeat_helperlib
 	**
 	** @return norm normalization factor (integral value)
 	**/
-	inline float normalize_histogram(float* begin, float* end);
+	float normalize_histogram(float* begin, float* end);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -197,7 +197,7 @@ namespace vlfeat_helperlib
 	**
 	** @return sqrt(x) square root of x
 	**/
-	inline float vl_fast_resqrt_f(float x);
+	float vl_fast_resqrt_f(float x);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -207,7 +207,7 @@ namespace vlfeat_helperlib
 	**
 	** @return sqrt(x) square root of x
 	**/
-	inline float vl_fast_sqrt_f (float x);
+	float vl_fast_sqrt_f (float x);
 
 } 
 /***************************************** End Namespace vlfeat_helperlib ********************************************/

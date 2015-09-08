@@ -442,7 +442,7 @@ vl_bool vlfeat_helperlib::check_sorted(double const * keys, vl_size nkeys)
 
 /*********************************************************************************************************************/
 
-inline float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
+float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
 {
 	float* iter;
 	float norm = 0.0f;
@@ -451,6 +451,7 @@ inline float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
 		norm += (*iter)*(*iter);
 
 	norm = vl_fast_sqrt_f(norm) + VL_EPSILON_F;
+	//norm = sqrt(norm) + VL_EPSILON_F;
 
 	for (iter = begin; iter != end; ++iter)
 		*iter /= norm;
@@ -460,7 +461,7 @@ inline float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
 
 /*********************************************************************************************************************/
 
-inline float vlfeat_helperlib::vl_fast_resqrt_f(float x)
+float vlfeat_helperlib::vl_fast_resqrt_f(float x)
 {
 	/* 32-bit version */
 	union 
@@ -485,7 +486,7 @@ inline float vlfeat_helperlib::vl_fast_resqrt_f(float x)
 
 /*********************************************************************************************************************/
 
-inline float vlfeat_helperlib::vl_fast_sqrt_f (float x)
+float vlfeat_helperlib::vl_fast_sqrt_f (float x)
 {
 	return (x < 1e-8) ? 0 : x * vl_fast_resqrt_f(x);
 }

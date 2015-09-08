@@ -26,6 +26,7 @@ int main(int argc, char** argv)
 
 	// set dsp options
 	dspsift_helperlib::dspOptions dsp_opt = dspsift_helperlib::dspOptions();
+	dsp_opt.vlsift_opt.verbose = 0; // no cout output
 
 	// load template image:
 	// needs to be grayscale image

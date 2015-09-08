@@ -21,10 +21,12 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 {	
 	dspsift_helperlib::dspOptions _dsp_opt = i_opt;
 
+	int dim_descriptor = 128;
+
 	//----------------------------------------------- Detection -----------------------------------------------------//
 	// static allocation and zero-initialization of arrays for features(frames) and descriptors
     double* siftFrames = (double*)calloc(4*10000, sizeof(double));
-    void* siftDescr  = (vl_uint8*)calloc(128*10000, sizeof(vl_uint8));
+    void* siftDescr  = (vl_uint8*)calloc(dim_descriptor*10000, sizeof(vl_uint8));
 
 	// stores number of features(frames)
     int nframes = 0;
@@ -34,7 +36,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	// reallocate memory block (in case to much space allocated before) 
     siftFrames = (double*)realloc(siftFrames, 4*sizeof(double)*nframes); // = Y X Scale Angle
-    siftDescr = (vl_uint8*)realloc(siftDescr, 128*sizeof(vl_uint8)*nframes);
+    siftDescr = (vl_uint8*)realloc(siftDescr, dim_descriptor*sizeof(vl_uint8)*nframes);
 
 	//-------------------------------------- Sample scales around detection -----------------------------------------//
 	int dimFeature = 4;
@@ -157,42 +159,70 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	{
 		std::cout << "col: " << col_iter << " value: " << outdescrArray.at<float>(0,col_iter) << std::endl;
 	}
-	// TODO
-//	int nel = ndim*nf;
-//            
-//	for (int i = 0; i < nel; ++i)
-//		d_out[i] = d[i];
-//	
-//	for (int i = 0; i < nf; ++i)
-//	{	
-//		float norm = normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-//	
-//   	   for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-//		{
-//			if (d_out[bin] > 0.0667)
-//               d_out[bin] = 0.0667;
-//// 			if (d_out[bin] > 15.0/255.0)
-//// 				d_out[bin] = 15.0/225.0;
-//		}
-//		normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-//        
-//        for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-//        {
-//            float x = 512.0F * d_out[bin];
-//            x = (x < 255.0F) ? x : 255.0F ;
-//            d_char[bin] = (unsigned char) x ;
-//        }
-//        d_out += ndim;
-//        d_char += ndim;
-//	}  
 
+	// TODO
+
+	float *d = (float*)outdescrArray.data;
+	// Pointer to the 0-th row
+//	float *d = (float*)outdescrArray.ptr<float>(0);
+	
+	std::cout << "Normalize Input: OK" << std::endl;
+	for(int i=0; i<128; i++)
+	{
+		std::cout << i << " " << "value: " << d[i] << std::endl;
+	}
+	float *d_out =  (float*)calloc(outdescrArray.cols, sizeof(float));;
+
+	// todo: use defines here
+	const int NBO = 8;
+	const int NBP = 4;
+
+	int nel = dim_descriptor*batchsize;
+//            
+	for (int i = 0; i < nel; ++i)
+	{
+		d_out[i] = d[i];
+	}
+
+	for (int i = 0; i < batchsize; ++i)
+	{	
+		float norm = vlfeat_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		
+		if(i==0)
+			std::cout << "Norm: " << norm << std::endl;
+		
+		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+			{
+				if (d_out[bin] > 0.0667f)
+					d_out[bin] = 0.0667f;
+				// 			if (d_out[bin] > 15.0/255.0)
+				// 				d_out[bin] = 15.0/225.0;
+			}
+			//vlfeat_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+
+			for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+			{
+				float x = 512.0F * d_out[bin];
+				x = (x < 255.0F) ? x : 255.0F;
+				//            d_char[bin] = (unsigned char) x ;
+			}
+			d_out += dim_descriptor;
+			//        d_char += ndim;
+	}
+
+	std::cout << "Normalize Output: OK?" << std::endl;
+	for(int i=0; i<128; i++)
+	{
+		std::cout << i << " " << "value: " << d_out[i] << std::endl;
+	}
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
 	*o_nframes = allfeatureMat.cols;
 
 	free(siftFrames);
 	free(siftDescr);
-	
+	//free(d_out);
+
 	debug("dsp_sift successfully ended");
 	return;
 }
