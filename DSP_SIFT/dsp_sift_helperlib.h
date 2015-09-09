@@ -18,6 +18,7 @@
 #include "debug_helper.h"
 #include <platformstl\performance\performance_counter.hpp>
 #include <stdint.h>
+#include <fstream>
 
 /************************************************** Structures *******************************************************/
 
@@ -45,12 +46,12 @@ namespace dspsift_helperlib
 	**
 	** @param i_image input greyscale image
 	** @param i_opt input option for sampling different scales
-	** @param o_DATAdescr vl_uint8* pointer to array of output descriptors
-	** @param o_DATAframes double* pointer to array of output frames(sift features)
+	** @param o_descr cv:.Mat (float32) of output descriptors
+	** @param o_features cv::Mat (float64) of output features(frames)
 	** @param o_nframes int* to the number of frames
 	** 
 	**/
-	void dsp_sift(IplImage* i_image, dspOptions i_opt, float* o_DATAdescr, double* o_DATAframes, int* o_nframes);
+	void dsp_sift(IplImage* i_image, dspOptions i_opt, int* o_nframes, cv::Mat &o_descr, cv::Mat &o_features);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -79,9 +80,7 @@ namespace dspsift_helperlib
 							cv::Mat& i_featureMat,
 							dspOptions i_opt,
 							cv::Mat &o_featureMat,
-							cv::Mat &o_descriptorMat,
-							float* o_DATAdescr, //TMP
-			 				double* o_DATAframes); //TMP
+							cv::Mat &o_descriptorMat);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -104,7 +103,7 @@ namespace dspsift_helperlib
 	** @param o_mat sorted output matrix
 	** 
 	**/
-	void sort_4Row_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
+	void s_sort_4rowf64_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -125,7 +124,7 @@ namespace dspsift_helperlib
 	** @param o_pDarray output pointer to double array
 	** 
 	**/
-	void transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* o_pDarray);
+	void dmat_to_darray(cv::Mat &i_Dmat, double* o_pDarray);
 
 	// Debug methods
 	void sorttest();
@@ -164,6 +163,7 @@ namespace dspsift_helperlib
 	**/
 	static inline float vl_fast_sqrt_f(float x);
 
+	void writeMatToFile(cv::Mat& m, const char* filename);
 
 } 
 /**************************************** End Namespace dspsift_helperlib ********************************************/

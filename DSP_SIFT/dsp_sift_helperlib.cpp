@@ -12,17 +12,11 @@
 
 platformstl::performance_counter c;
 
-//
-////static inline float vl_fast_resqrt_f(float x);
-////static inline float vl_fast_sqrt_f(float x);
-//static inline float normalize_histogram(float* begin, float* end);
-
-
 void dspsift_helperlib::dsp_sift(IplImage* i_image,
 									dspsift_helperlib::dspOptions i_opt,
-									float* o_DATAdescr,
-									double* o_DATAframes,
-									int* o_nframes)
+									int* o_nframes,
+									cv::Mat &o_descr,
+									cv::Mat &o_features)
 {	
 	dspsift_helperlib::dspOptions _dsp_opt = i_opt;
 
@@ -59,9 +53,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 											featureMat,
 											_dsp_opt,
 											allfeatureMat,
-											alldescriptorMat,
-											o_DATAdescr,
-											o_DATAframes);
+											alldescriptorMat);
 	
 	/*********************************** DEBUG *****************************/
 	//std::cout << "Output frames in original order" << std::endl;
@@ -94,6 +86,10 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 		Mat_row[col_iter] = siftFrames[4*(col_iter)+row_nr_scale];
 	}
 	
+
+
+	const char* filename = "C:/Users/Julian/Pictures/featrs.txt";
+    writeMatToFile(out_featureMat,filename);
 	
 	//std::cout << "frames after overwriting " << std::endl;
 	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
@@ -127,13 +123,6 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	//dspsift_helperlib::pool_descriptors(InputMat,nf,ns,outMat);
 	/*********************************** DEBUG *****************************/
 
-
-	//std::cout << "pooled output descriptors" << std::endl;
-	//for(int row_iter=0; row_iter<out_pooledDescriptors.rows; row_iter++)
-	//{
-	//	std::cout << "row: " << row_iter << " value: " << out_pooledDescriptors.at<float>(row_iter,0) << std::endl;
-	//}
-
 	// normalizing
 
 	//reshape pooledDescriptormat to 1d array
@@ -148,39 +137,39 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	// TODO
 
-	//float *d_out = (float*)outdescrArray.data;
+	float *d = (float*)outdescrArray.data;
 	// Pointer to the 0-th row
 
 	float *d_out =  (float*)calloc(outdescrArray.cols, sizeof(float));
 	uint8_t *d_char =  (uint8_t*)calloc(outdescrArray.cols, sizeof(uint8_t));
 
-	d_out = (float*)outdescrArray.data;
+	//d_out = (float*)outdescrArray.data;
 
 	// TODO: use defines here
 	const int NBO = 8;
 	const int NBP = 4;
 
-	//int nel = dim_descriptor*batchsize;
-//            
-	/*for (int i = 0; i < nel; ++i)
+	int nel = dim_descriptor*batchsize;
+            
+	for (int i = 0; i < nel; ++i)
 	{
 		d_out[i] = d[i];
-	}*/
+	}
 
 	/************************ DEBUG ****************/
 	std::cout << "D_out Input: OK" << std::endl;
-	for(int i=0; i<10; i++)
+	for(int i=128; i<138; i++)
 	{
 		std::cout << i << " " << "value: " << d_out[i] << std::endl;
 	}
 	/************************ DEBUG ****************/
-
+	int DEBUGCOL = 1;
 	for (int i = 0; i < batchsize; ++i)
 	{	
-		static float norm = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		float norm = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
 		
 		/************************ DEBUG ****************/
-		if(i==0)
+		if(i==DEBUGCOL)
 		{	
 			printf("After first normalization: \n");
 			for(int j = 0; j< 10; j++)
@@ -195,15 +184,15 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 				d_out[bin] = 0.0667f;
 			
 			/************************ DEBUG ****************/
-			if(i==0 && bin<10)
+			if(i==DEBUGCOL && bin<10)
 				printf("bin: %i value: %f \n", bin, d_out[bin]);
 			/************************ DEBUG ****************/
 		}
 		
-		static float norm2 = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		float norm2 = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
 		
 		/************************ DEBUG ****************/
-		if(i==0)
+		if(i==DEBUGCOL)
 		{	
 			printf("After 2nd normalization: \n");
 			for(int j = 0; j< 10; j++)
@@ -219,7 +208,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 			d_char[bin] = (uint8_t)x;
 			
 			/************************ DEBUG ****************/
-			if(i==0 && bin<10)
+			if(i==DEBUGCOL && bin<10)
 				printf("x: %f \t d_out: %f \t d_char: %f \n", x, d_out[bin], (float)d_char[bin]);
 			/************************ DEBUG ****************/
 		}
@@ -232,11 +221,20 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	d_char = d_char - batchsize*dim_descriptor;
 
 	/************************ DEBUG ****************/
-	std::cout << "D_char Output: OK?" << std::endl;
+	std::cout << "D_char Output 1st col: OK?" << std::endl;
 	for(int i=0; i<10; i++)
 	{
 		printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
 	}
+	d_out += dim_descriptor;
+	d_char += dim_descriptor;
+	printf("\n 2nd col: OK?\n");
+	for(int i=0; i<10; i++)
+	{
+		printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
+	}
+	d_out -= dim_descriptor;
+	d_char -= dim_descriptor;
 	/************************ DEBUG ****************/
 
 
@@ -252,18 +250,36 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 			Mat_row[col_iter] = d_char[dim_descriptor*col_iter+row_iter];
 		}
 	}
-
-		/************************ DEBUG ****************/
-	std::cout << "D_char Output: OK?" << std::endl;
-	for(int i=0; i<128; i++)
+	cv::imwrite( "C:/Users/Julian/Pictures/descritors.png", out_pn_DescriptorMat );
+	
+	
+	///************************ DEBUG ****************/
+	std::cout << "Final Output Descriptors: 1st col OK?" << std::endl;
+	for(int i=0; i<10; i++)
 	{
-		printf("i: %i \t d_out: %f \t d_char: %i \n", i, d_out[i], out_pn_DescriptorMat.at<uint8_t>(i,0)); 
+		printf("i: %i \t d_out: %f \t d_char: %i \n", i, d_out[i], out_pn_DescriptorMat.at<uint8_t>(i,10)); 
 	}
-	/************************ DEBUG ****************/
+	///************************ DEBUG ****************/
 
+	//for(int i=0; i<out_featureMat.cols; i++)
+	//{	
+ //       cvCircle(i_image,																// image
+	//			 cvPoint((int)out_featureMat.at<double>(0,i), (int)out_featureMat.at<double>(1,i)),			// center (x,y)
+	//			 (int)out_featureMat.at<double>(2,i),												// radius
+	//			 cvScalar(255, 0, 0, 0),												// colour
+	//			 1,																		// thickness
+	//			 8,																		// linetype
+	//			 0);																	// shift
+ //   }
+	//cvShowImage("Final DSP-Sift Features", i_image);
+	//cvSaveImage("C:/Users/Julian/Pictures/dsp_sift_final_descriptors.png" ,i_image);
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
-	*o_nframes = allfeatureMat.cols;
+	*o_nframes = out_featureMat.cols;
+	o_descr = out_pn_DescriptorMat;
+	o_features = out_featureMat;
+
+
 
 	free(siftFrames);
 	free(siftDescr);
@@ -342,9 +358,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 											cv::Mat& i_featureMat, 
 											dspOptions i_opt, 
 											cv::Mat &o_featureMat,
-											cv::Mat &o_descriptorMat,
-											float* o_DATAdescr, 
-											double* o_DATAframes)
+											cv::Mat &o_descriptorMat)
 {
 	cv::Mat sorted_idx, sorted_idx_back, sorted_featureMat, descriptorMat;
 	int num_sampledframes = 0;
@@ -357,7 +371,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	cv::sortIdx(sorted_idx,sorted_idx_back, cv::SORT_EVERY_ROW + cv::SORT_ASCENDING);
 
 	// fast sorting of matrix with only 4 rows
-	dspsift_helperlib::sort_4Row_matrixcolsbyindices(i_featureMat,sorted_idx,sorted_featureMat);
+	dspsift_helperlib::s_sort_4rowf64_matrixcolsbyindices(i_featureMat,sorted_idx,sorted_featureMat);
 	
 	// allocate memory
 	double* all_output_frames = (double*)calloc(sorted_featureMat.rows*sorted_featureMat.cols, sizeof(double));
@@ -366,7 +380,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	float* all_descr = (float*)calloc(128*50000, sizeof(float));
 
 	//  transform scaled keypoints mat to double array
-	dspsift_helperlib::transformKeypointMat_to_Array(sorted_featureMat,sorted_input_frames);
+	dspsift_helperlib::dmat_to_darray(sorted_featureMat,sorted_input_frames);
 
 	// set new options for computation of sift descriptors only (no sift feature detection!)
 	i_opt.vlsift_opt.ikeys_provided = true;
@@ -401,11 +415,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	//			 0);																// shift
  //   }
     cvShowImage("Sampled Features", i_image);
-	
-	// save variables// temporarily:
-	memcpy(o_DATAframes, all_output_frames, 4*num_sampledframes*sizeof(double));
-	memcpy(o_DATAdescr, all_output_desc, 128*num_sampledframes*sizeof(float));
-	
+	//cvSaveImage("C:/Users/Julian/Pictures/dsp_sift_descriptors.png" ,i_image);
 	
 	memcpy(all_descr, all_output_desc, 128*num_sampledframes*sizeof(float));
 	all_descr = (float*)realloc(all_descr, 128*sizeof(float)*num_sampledframes);
@@ -435,7 +445,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	// sort back to original order
 	c.start();
 	cv::Mat out_featureMat;
-	dspsift_helperlib::sort_4Row_matrixcolsbyindices(sorted_featureMat,sorted_idx_back,o_featureMat);	//only 4 rows
+	dspsift_helperlib::s_sort_4rowf64_matrixcolsbyindices(sorted_featureMat,sorted_idx_back,o_featureMat);	//only 4 rows
 	c.stop();
 	std::cout << "time (s): " << c.get_seconds() << std::endl;
 	std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
@@ -480,7 +490,7 @@ void dspsift_helperlib::pool_descriptors(cv::Mat& i_descriptorMat, int batchsize
 
 
 
-void dspsift_helperlib::sort_4Row_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
+void dspsift_helperlib::s_sort_4rowf64_matrixcolsbyindices(cv::Mat &i_mat, cv::Mat &i_indices, cv::Mat &o_mat)
 {
 	//cv::Mat sorted_featureMat;
 	o_mat = cv::Mat::zeros(i_mat.rows,i_mat.cols,i_mat.type());
@@ -538,7 +548,7 @@ void dspsift_helperlib::sort_genericf32_matrixcolsbyindices(cv::Mat &i_mat, cv::
 
 
 
-void dspsift_helperlib::transformKeypointMat_to_Array(cv::Mat &i_Dmat, double* o_pDarray)
+void dspsift_helperlib::dmat_to_darray(cv::Mat &i_Dmat, double* o_pDarray)
 {
 	for(int nframe=0; nframe<i_Dmat.cols; nframe++)
 	{
@@ -676,4 +686,25 @@ static inline float dspsift_helperlib::vl_fast_resqrt_f(float x)
 static inline float dspsift_helperlib::vl_fast_sqrt_f(float x)
 {
 	return (x < 1e-8) ? 0 : x * vl_fast_resqrt_f(x);
+}
+
+void dspsift_helperlib::writeMatToFile(cv::Mat& m, const char* filename)
+{
+    std::ofstream fout(filename);
+
+    if(!fout)
+    {
+        std::cout<<"File Not Opened"<<std::endl;  return;
+    }
+
+    for(int i=0; i<m.rows; i++)
+    {
+        for(int j=0; j<m.cols; j++)
+        {
+            fout<<m.at<double>(i,j)<<"\t";
+        }
+        fout<<std::endl;
+    }
+
+    fout.close();
 }

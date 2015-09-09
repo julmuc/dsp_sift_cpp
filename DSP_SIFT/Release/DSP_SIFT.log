@@ -1,9 +1,9 @@
-﻿Der Buildvorgang wurde am 09.09.2015 14:59:37 gestartet.
+﻿Der Buildvorgang wurde am 09.09.2015 21:22:44 gestartet.
      1>Projekt "C:\Users\Julian\Documents\Visual Studio 2010\Projects\dsp_sift_cpp\DSP_SIFT\DSP_SIFT.vcxproj" auf Knoten "2", rebuild Ziel(e).
      1>_PrepareForClean:
          Die Datei "Release\DSP_SIFT.lastbuildstate" wird gelöscht.
        InitializeBuildStatus:
-         "Release\DSP_SIFT.unsuccessfulbuild" wird erstellt, da "AlwaysCreate" angegeben wurde.
+         Aktualisieren des Timestamps von "Release\DSP_SIFT.unsuccessfulbuild".
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv\build\x86\vc10\..\..\include /I"C:\vlfeat-0.9.20" /I"C:\stlsoft-1.9.119-hdrs\stlsoft-1.9.119\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt dsp_sift_helperlib.cpp main.cpp vlfeat_helperlib.cpp
          dsp_sift_helperlib.cpp
@@ -25,4 +25,4 @@
 
 Das Erstellen war erfolgreich.
 
-Verstrichene Zeit 00:00:07.21
+Verstrichene Zeit 00:00:06.01

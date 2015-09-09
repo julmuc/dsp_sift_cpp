@@ -408,7 +408,7 @@ void vlfeat_helperlib::vlmatch(vl_uint8* L1_pt,vl_uint8* L2_pt, int K1, int K2, 
     memcpy(MATCHES, M_pt, (*nMatches)*2*sizeof(double));
     free(pairs_begin);
     free(M_pt);
- 
+   
     return; 
 }
 

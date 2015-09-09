@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 {	
 	//// set vl_sift options 
 	////vlfeat_helperlib::vl_sift_options _vlsift_opt = vlfeat_helperlib::vl_sift_options();
-
+	cv::Mat dsp_descr, dsp_features;
 	// set dsp options
 	dspsift_helperlib::dspOptions dsp_opt = dspsift_helperlib::dspOptions();
 	dsp_opt.vlsift_opt.verbose = 0; // no cout output
@@ -39,30 +39,40 @@ int main(int argc, char** argv)
 	// stores number of features
     int Tnframes = 0;
 	
-	//// call sift
-	////vlfeat_helperlib::vlsift(Timage, TDescr, TFrames, &Tnframes, _vlsift_opt);
+	// call sift
+	//vlfeat_helperlib::vlsift(Timage, TDescr, TFrames, &Tnframes, dsp_opt.vlsift_opt);
 	
 	// call dsp_sift
-	dspsift_helperlib::dsp_sift(Timage,dsp_opt,TDescr,TFrames,&Tnframes);
+	dspsift_helperlib::dsp_sift(Timage,dsp_opt,&Tnframes, dsp_descr, dsp_features);
+
+		///************************ DEBUG ****************/
+	std::cout << "Final Call Descriptors: 1st col OK?" << std::endl;
+	for(int i=0; i<10; i++)
+	{
+		printf("i: %i \t d_char: %i \n", i, dsp_descr.at<uint8_t>(i,10)); 
+	}
+	///************************ DEBUG ****************/
+
 
 	// reallocate memory block (in case to much space allocated before) 
     TFrames = (double*)realloc(TFrames, 4*sizeof(double)*Tnframes); // = Y X Scale Angle
     TDescr = (float*)realloc(TDescr, 128*sizeof(float)*Tnframes);
     
-	// draw each feature region as a circle
-    for(int i=0; i<Tnframes; i++)
-	{
-        cvCircle(Timage,													// image
-				 cvPoint((int)TFrames[0+i*4], (int)TFrames[1+i*4]),			// center (x,y)
-				 (int)TFrames[2+i*4],										// radius
-				 cvScalar(255, 0, 0, 0),									// colour
-				 1,															// thickness
-				 8,															// linetype
-				 0);														// shift
-    }
-	
-	// show image
-    cvShowImage("Final Output Features", Timage);
+	//// draw each feature region as a circle
+ //   for(int i=0; i<Tnframes; i++)
+	//{
+ //       cvCircle(Timage,													// image
+	//			 cvPoint((int)TFrames[0+i*4], (int)TFrames[1+i*4]),			// center (x,y)
+	//			 (int)TFrames[2+i*4],										// radius
+	//			 cvScalar(255, 0, 0, 0),									// colour
+	//			 1,															// thickness
+	//			 8,															// linetype
+	//			 0);														// shift
+ //   }
+	//
+	//// show image
+ //   cvShowImage("Final Output Features", Timage);
+	//cvSaveImage("C:/Users/Julian/Pictures/sift_descriptors.png" ,Timage);
     cvWaitKey(0);
 
 	free(TFrames);
