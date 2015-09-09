@@ -442,51 +442,51 @@ vl_bool vlfeat_helperlib::check_sorted(double const * keys, vl_size nkeys)
 
 /*********************************************************************************************************************/
 
-float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
-{
-	float* iter;
-	float norm = 0.0f;
-
-	for (iter = begin; iter != end; ++iter)
-		norm += (*iter)*(*iter);
-
-	norm = vl_fast_sqrt_f(norm) + VL_EPSILON_F;
-	//norm = sqrt(norm) + VL_EPSILON_F;
-
-	for (iter = begin; iter != end; ++iter)
-		*iter /= norm;
-
-	return norm;
-}
-
-/*********************************************************************************************************************/
-
-float vlfeat_helperlib::vl_fast_resqrt_f(float x)
-{
-	/* 32-bit version */
-	union 
-	{
-		float x;
-		int  i;
-	}u;
-
-	float xhalf = (float)0.5*x;
-
-	/* convert floating point value in RAW integer */
-	u.x = x;
-
-	/* gives initial guess y0 */
-	u.i = 0x5f3759df - (u.i >> 1);
-
-	/* two Newton steps */
-	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
-	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
-	return u.x;
-}
-
-/*********************************************************************************************************************/
-
-float vlfeat_helperlib::vl_fast_sqrt_f (float x)
-{
-	return (x < 1e-8) ? 0 : x * vl_fast_resqrt_f(x);
-}
+// inline float vlfeat_helperlib::normalize_histogram(float* begin, float* end)
+//{
+//	float* iter;
+//	float norm = 0.0f;
+//
+//	for (iter = begin; iter != end; ++iter)
+//		norm += (*iter)*(*iter);
+//
+//	norm = vl_fast_sqrt_f(norm) + VL_EPSILON_F;
+//	//norm = sqrt(norm) + VL_EPSILON_F;
+//
+//	for (iter = begin; iter != end; ++iter)
+//		*iter /= norm;
+//
+//	return norm;
+//}
+//
+///*********************************************************************************************************************/
+//
+//static inline float vlfeat_helperlib::vl_fast_resqrt_f(float x)
+//{
+//	/* 32-bit version */
+//	union 
+//	{
+//		float x;
+//		int  i;
+//	}u;
+//
+//	float xhalf = (float)0.5*x;
+//
+//	/* convert floating point value in RAW integer */
+//	u.x = x;
+//
+//	/* gives initial guess y0 */
+//	u.i = 0x5f3759df - (u.i >> 1);
+//
+//	/* two Newton steps */
+//	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
+//	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
+//	return u.x;
+//}
+//
+///*********************************************************************************************************************/
+//
+//static inline float vlfeat_helperlib::vl_fast_sqrt_f(float x)
+//{
+//	return (x < 1e-8) ? 0 : x * vl_fast_resqrt_f(x);
+//}

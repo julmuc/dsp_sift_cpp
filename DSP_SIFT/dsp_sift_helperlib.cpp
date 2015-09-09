@@ -12,6 +12,11 @@
 
 platformstl::performance_counter c;
 
+//
+////static inline float vl_fast_resqrt_f(float x);
+////static inline float vl_fast_sqrt_f(float x);
+//static inline float normalize_histogram(float* begin, float* end);
+
 
 void dspsift_helperlib::dsp_sift(IplImage* i_image,
 									dspsift_helperlib::dspOptions i_opt,
@@ -82,25 +87,6 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	std::cout << "out_featureMat.cols: " << out_featureMat.cols << " .rows: " << out_featureMat.rows << std::endl;
 
-	//cv::Mat aux;
-	//cv::Mat InputMat = cv::Mat::eye(3,3,CV_64F);
-	//std::cout << "InputMat = " << std::endl << " " << InputMat << std::endl << std::endl;
-	//cv::Mat dest(InputMat.colRange(0,2));
-	//cv::Mat OUTMAT;// = cv::Mat::zeros(2, InputMat.cols, CV_64F);
-	////aux = InputMat.colRange(0,InputMat.cols).rowRange(0,1);
-	////OUTMAT.copyTo(dest);
-	//dest.copyTo(OUTMAT);
-	//std::cout << "OUTMAT = " << std::endl << " " << OUTMAT << std::endl << std::endl;
-	
-	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
-	//{
-	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,0) << std::endl;
-	//}
-	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
-	//{
-	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,out_featureMat.cols-1) << std::endl;
-	//}
-
 	int row_nr_scale = 2;
 	double* Mat_row = out_featureMat.ptr<double>(row_nr_scale);
 	for(int col_iter=0; col_iter<batchsize; col_iter++)
@@ -142,11 +128,11 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	/*********************************** DEBUG *****************************/
 
 
-	std::cout << "pooled output descriptors" << std::endl;
-	for(int row_iter=0; row_iter<out_pooledDescriptors.rows; row_iter++)
-	{
-		std::cout << "row: " << row_iter << " value: " << out_pooledDescriptors.at<float>(row_iter,0) << std::endl;
-	}
+	//std::cout << "pooled output descriptors" << std::endl;
+	//for(int row_iter=0; row_iter<out_pooledDescriptors.rows; row_iter++)
+	//{
+	//	std::cout << "row: " << row_iter << " value: " << out_pooledDescriptors.at<float>(row_iter,0) << std::endl;
+	//}
 
 	// normalizing
 
@@ -154,67 +140,127 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	cv::Mat outdescrArray;
 	outdescrArray = cv::Mat(out_pooledDescriptors.t()).reshape(1,1);
 
-	std::cout << "rows: " << outdescrArray.rows << " cols: " << outdescrArray.cols << std::endl;
-	for(int col_iter=0; col_iter<130; col_iter++)
-	{
-		std::cout << "col: " << col_iter << " value: " << outdescrArray.at<float>(0,col_iter) << std::endl;
-	}
+	//std::cout << "rows: " << outdescrArray.rows << " cols: " << outdescrArray.cols << std::endl;
+	//for(int col_iter=0; col_iter<130; col_iter++)
+	//{
+	//	std::cout << "col: " << col_iter << " value: " << outdescrArray.at<float>(0,col_iter) << std::endl;
+	//}
 
 	// TODO
 
-	float *d = (float*)outdescrArray.data;
+	//float *d_out = (float*)outdescrArray.data;
 	// Pointer to the 0-th row
-//	float *d = (float*)outdescrArray.ptr<float>(0);
-	
-	std::cout << "Normalize Input: OK" << std::endl;
-	for(int i=0; i<128; i++)
-	{
-		std::cout << i << " " << "value: " << d[i] << std::endl;
-	}
-	float *d_out =  (float*)calloc(outdescrArray.cols, sizeof(float));;
 
-	// todo: use defines here
+	float *d_out =  (float*)calloc(outdescrArray.cols, sizeof(float));
+	uint8_t *d_char =  (uint8_t*)calloc(outdescrArray.cols, sizeof(uint8_t));
+
+	d_out = (float*)outdescrArray.data;
+
+	// TODO: use defines here
 	const int NBO = 8;
 	const int NBP = 4;
 
-	int nel = dim_descriptor*batchsize;
+	//int nel = dim_descriptor*batchsize;
 //            
-	for (int i = 0; i < nel; ++i)
+	/*for (int i = 0; i < nel; ++i)
 	{
 		d_out[i] = d[i];
-	}
+	}*/
 
-	for (int i = 0; i < batchsize; ++i)
-	{	
-		float norm = vlfeat_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-		
-		if(i==0)
-			std::cout << "Norm: " << norm << std::endl;
-		
-		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-			{
-				if (d_out[bin] > 0.0667f)
-					d_out[bin] = 0.0667f;
-				// 			if (d_out[bin] > 15.0/255.0)
-				// 				d_out[bin] = 15.0/225.0;
-			}
-			//vlfeat_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-
-			for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-			{
-				float x = 512.0F * d_out[bin];
-				x = (x < 255.0F) ? x : 255.0F;
-				//            d_char[bin] = (unsigned char) x ;
-			}
-			d_out += dim_descriptor;
-			//        d_char += ndim;
-	}
-
-	std::cout << "Normalize Output: OK?" << std::endl;
-	for(int i=0; i<128; i++)
+	/************************ DEBUG ****************/
+	std::cout << "D_out Input: OK" << std::endl;
+	for(int i=0; i<10; i++)
 	{
 		std::cout << i << " " << "value: " << d_out[i] << std::endl;
 	}
+	/************************ DEBUG ****************/
+
+	for (int i = 0; i < batchsize; ++i)
+	{	
+		static float norm = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		
+		/************************ DEBUG ****************/
+		if(i==0)
+		{	
+			printf("After first normalization: \n");
+			for(int j = 0; j< 10; j++)
+				printf("j: %i value: %f \n", j, d_out[j]); 
+			std::cout << "Norm: " << norm << std::endl;
+		}
+		/************************ DEBUG ****************/
+
+		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+		{
+			if (d_out[bin] > 0.0667f)
+				d_out[bin] = 0.0667f;
+			
+			/************************ DEBUG ****************/
+			if(i==0 && bin<10)
+				printf("bin: %i value: %f \n", bin, d_out[bin]);
+			/************************ DEBUG ****************/
+		}
+		
+		static float norm2 = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		
+		/************************ DEBUG ****************/
+		if(i==0)
+		{	
+			printf("After 2nd normalization: \n");
+			for(int j = 0; j< 10; j++)
+				printf("j: %i value: %f \n", j, d_out[j]); 
+			printf("Norm: %f\n",norm2);
+		}
+		/************************ DEBUG ****************/
+
+		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+		{
+			float x = 512.0F * d_out[bin];
+			x = (x < 255.0F) ? x : 255.0F;
+			d_char[bin] = (uint8_t)x;
+			
+			/************************ DEBUG ****************/
+			if(i==0 && bin<10)
+				printf("x: %f \t d_out: %f \t d_char: %f \n", x, d_out[bin], (float)d_char[bin]);
+			/************************ DEBUG ****************/
+		}
+		d_out += dim_descriptor;
+		d_char += dim_descriptor;
+	}
+
+	// set pointer back to first element
+	d_out = d_out -  batchsize*dim_descriptor;
+	d_char = d_char - batchsize*dim_descriptor;
+
+	/************************ DEBUG ****************/
+	std::cout << "D_char Output: OK?" << std::endl;
+	for(int i=0; i<10; i++)
+	{
+		printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
+	}
+	/************************ DEBUG ****************/
+
+
+	// todo
+	// fill out_pooledandnormalizedDescriptorMat (8 bit unsigned char)
+	cv::Mat out_pn_DescriptorMat;
+	out_pn_DescriptorMat = cv::Mat::zeros(dim_descriptor, batchsize, CV_8UC1);	// 128x(ns*nf) float matrix
+	for(int row_iter=0; row_iter<out_pn_DescriptorMat.rows; row_iter++)
+	{
+		uint8_t* Mat_row = out_pn_DescriptorMat.ptr<uint8_t>(row_iter);
+		for(int col_iter=0; col_iter<out_pn_DescriptorMat.cols; col_iter++)
+		{		
+			Mat_row[col_iter] = d_char[dim_descriptor*col_iter+row_iter];
+		}
+	}
+
+		/************************ DEBUG ****************/
+	std::cout << "D_char Output: OK?" << std::endl;
+	for(int i=0; i<128; i++)
+	{
+		printf("i: %i \t d_out: %f \t d_char: %i \n", i, d_out[i], out_pn_DescriptorMat.at<uint8_t>(i,0)); 
+	}
+	/************************ DEBUG ****************/
+
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
 	*o_nframes = allfeatureMat.cols;
@@ -581,4 +627,53 @@ void dspsift_helperlib::sorttest()
 	std::cout << "sorted_mat = " << std::endl << " " << sorted_mat << std::endl << std::endl;
 	std::cout << "\n" << " =========== sortTest() end ========== " << std::endl;
 
+}
+
+static inline float dspsift_helperlib::normalize_histogram(float* begin, float* end)
+{
+	float* iter;
+	float norm = 0.0f;
+
+	for (iter = begin; iter != end; ++iter)
+		norm += (*iter)*(*iter);
+
+	norm = vl_fast_sqrt_f(norm) + VL_EPSILON_F;
+	//norm = sqrt(norm) + VL_EPSILON_F;
+
+	for (iter = begin; iter != end; ++iter)
+		*iter /= norm;
+
+	return norm;
+}
+
+/*********************************************************************************************************************/
+
+static inline float dspsift_helperlib::vl_fast_resqrt_f(float x)
+{
+	/* 32-bit version */
+	union 
+	{
+		float x;
+		int  i;
+	}u;
+
+	float xhalf = (float)0.5*x;
+
+	/* convert floating point value in RAW integer */
+	u.x = x;
+
+	/* gives initial guess y0 */
+	u.i = 0x5f3759df - (u.i >> 1);
+
+	/* two Newton steps */
+	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
+	u.x = u.x * ( (float) 1.5  - xhalf*u.x*u.x);
+	return u.x;
+}
+
+/*********************************************************************************************************************/
+
+static inline float dspsift_helperlib::vl_fast_sqrt_f(float x)
+{
+	return (x < 1e-8) ? 0 : x * vl_fast_resqrt_f(x);
 }

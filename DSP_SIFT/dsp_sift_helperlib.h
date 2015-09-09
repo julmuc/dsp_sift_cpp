@@ -17,7 +17,7 @@
 #include "vlfeat_helperlib.h"
 #include "debug_helper.h"
 #include <platformstl\performance\performance_counter.hpp>
-
+#include <stdint.h>
 
 /************************************************** Structures *******************************************************/
 
@@ -129,6 +129,40 @@ namespace dspsift_helperlib
 
 	// Debug methods
 	void sorttest();
+
+
+
+
+		/** ------------------------------------------------------------------
+	** @internal
+	** @brief Normalizes the histogram 
+	**
+	** @param begin pointer to begin of the array
+	** @param end pointer to end of the array
+	**
+	** @return norm normalization factor (integral value)
+	**/
+	static inline float normalize_histogram(float* begin, float* end);
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Fast real sqrt(x) approximation
+	**
+	** @param x float value
+	**
+	** @return sqrt(x) square root of x
+	**/
+	static inline float vl_fast_resqrt_f(float x);
+
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief The function computes a fast approximation of sqrt(x)
+	**
+	** @param x float value
+	**
+	** @return sqrt(x) square root of x
+	**/
+	static inline float vl_fast_sqrt_f(float x);
 
 
 } 
