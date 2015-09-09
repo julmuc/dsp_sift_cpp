@@ -16,7 +16,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "vlfeat_helperlib.h"
 #include "debug_helper.h"
-#include <platformstl\performance\performance_counter.hpp>
+#include <platformstl\performance\performance_counter.hpp>		// for profiling
 #include <stdint.h>
 #include <fstream>
 
@@ -38,6 +38,21 @@ namespace dspsift_helperlib
 		vlfeat_helperlib::vl_sift_options vlsift_opt;
 	} dspOptions ;
 
+	typedef struct dsp_times
+	{	
+		long long time_total_dspsift;
+		long long time_vl_sift_normal;
+		long long time_vl_sift_all;
+		long long time_samplescales;
+		long long time_getalldescr;
+		long long time_pooldescr;
+		long long time_sort4rows;
+		long long time_sortgenericmat;
+		long long time_dMat2dArray;
+		long long time_normalizehist;
+
+	} dsp_times ;
+
 	/******************************************** Function Declarations **********************************************/
 
 	/** ------------------------------------------------------------------
@@ -46,12 +61,13 @@ namespace dspsift_helperlib
 	**
 	** @param i_image input greyscale image
 	** @param i_opt input option for sampling different scales
+	** @param o_dsptimes timing struct
 	** @param o_descr cv:.Mat (float32) of output descriptors
 	** @param o_features cv::Mat (float64) of output features(frames)
 	** @param o_nframes int* to the number of frames
 	** 
 	**/
-	void dsp_sift(IplImage* i_image, dspOptions i_opt, int* o_nframes, cv::Mat &o_descr, cv::Mat &o_features);
+	void dsp_sift(IplImage* i_image, dspOptions i_opt, dsp_times &o_dsptimes, int* o_nframes, cv::Mat &o_descr, cv::Mat &o_features);
 
 	/** ------------------------------------------------------------------
 	** @internal
@@ -80,7 +96,8 @@ namespace dspsift_helperlib
 							cv::Mat& i_featureMat,
 							dspOptions i_opt,
 							cv::Mat &o_featureMat,
-							cv::Mat &o_descriptorMat);
+							cv::Mat &o_descriptorMat,
+							dsp_times &o_dsptimes);
 
 	/** ------------------------------------------------------------------
 	** @internal
