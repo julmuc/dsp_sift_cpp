@@ -21,12 +21,10 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 {	
 	dspsift_helperlib::dspOptions _dsp_opt = i_opt;
 
-	int dim_descriptor = 128;
-
 	//----------------------------------------------- Detection -----------------------------------------------------//
 	// static allocation and zero-initialization of arrays for features(frames) and descriptors
     double* siftFrames = (double*)calloc(4*10000, sizeof(double));
-    void* siftDescr  = (vl_uint8*)calloc(dim_descriptor*10000, sizeof(vl_uint8));
+    void* siftDescr  = (vl_uint8*)calloc(DIM_DESCRIPTOR*10000, sizeof(vl_uint8));
 
 	// stores number of features(frames)
     int nframes = 0;
@@ -39,7 +37,7 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 
 	// reallocate memory block (in case to much space allocated before) 
     siftFrames = (double*)realloc(siftFrames, 4*sizeof(double)*nframes); // = Y X Scale Angle
-    siftDescr = (vl_uint8*)realloc(siftDescr, dim_descriptor*sizeof(vl_uint8)*nframes);
+    siftDescr = (vl_uint8*)realloc(siftDescr, DIM_DESCRIPTOR*sizeof(vl_uint8)*nframes);
 
 	//-------------------------------------- Sample scales around detection -----------------------------------------//
 	int dimFeature = 4;
@@ -80,209 +78,35 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	/*********************************** DEBUG *****************************/
 
 
-	//------------------------------------------- pool and normalize -------------------------------------------//
+	//---------------------------------------------- pool and normalize ---------------------------------------------//
 
 	int batchsize = allfeatureMat.cols/_dsp_opt.ns;
-	//cv::Mat out_featureMat, firstbatch;
 
-	//firstbatch = allfeatureMat.colRange(0,batchsize).rowRange(0,allfeatureMat.rows);	// 4 x batchsize
-	//firstbatch.copyTo(out_featureMat);
-
-	//int row_nr_scale = 2;	// TODO MAKE DEFINE
-	//double* Mat_row = out_featureMat.ptr<double>(row_nr_scale);
-	//for(int col_iter=0; col_iter<batchsize; col_iter++)
-	//{
-	//	Mat_row[col_iter] = siftFrames[4*(col_iter)+row_nr_scale];
-	//}
-	
-
-	// write feature matrix to text file
-//		const char* filename = "C:/Users/Julian/Pictures/featrs.txt";
-//		 writeMatToFile(out_featureMat,filename);
-	
-
-
-
-
-	//std::cout << "frames after overwriting " << std::endl;
-	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
-	//{
-	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,0) << std::endl;
-	//}
-	//for(int row_iter=0; row_iter<out_featureMat.rows; row_iter++)
-	//{
-	//	std::cout << "row: " << row_iter << " value: " << out_featureMat.at<double>(row_iter,out_featureMat.cols-1) << std::endl;
-	//}
-
-	cv::Mat out_pooledDescriptors;
-	// pooling --- working !
+	// pooling
+	cv::Mat pooledDescriptors;
 	c.start();
-	dspsift_helperlib::pool_descriptors(alldescriptorMat,batchsize,_dsp_opt.ns,out_pooledDescriptors);
+	dspsift_helperlib::pool_descriptors(alldescriptorMat,batchsize,_dsp_opt.ns,pooledDescriptors);
 	c.stop();
 	o_dsptimes.time_pooldescr = c.get_microseconds();
-	//std::cout << "time (s): " << c.get_seconds() << std::endl;
-	//std::cout << "time (ms): " << c.get_milliseconds() << std::endl;
-	//std::cout << "time (us): " << c.get_microseconds() << std::endl;
-
-	/*********************************** DEBUG *****************************/
-	//int nf = 3;
-	//int ns = 3;
-	//cv::Mat InputMat = (cv::Mat_<float>(4,9) <<		1,		2,		3,		2,		3,		4,		3,		4,		5,
-	//												1,		2,		3,		2,		3,		4,		3,		4,		5,
-	//												1,		2,		3,		2,		3,		4,		3,		4,		5,
-	//												1,		2,		3,		2,		3,		4,		3,		4,		5);
-	//cv::Mat outMat;
-	//std::cout << "InputMat = " << std::endl << " " << InputMat << std::endl << std::endl;
-	//dspsift_helperlib::pool_descriptors(InputMat,nf,ns,outMat);
-	/*********************************** DEBUG *****************************/
 
 	// normalizing
-
 	c.start();
+	cv::Mat out_featureMat;
 
-	cv::Mat out_featureMat, firstbatch;
-
-	firstbatch = allfeatureMat.colRange(0,batchsize).rowRange(0,allfeatureMat.rows);	// 4 x batchsize
-	firstbatch.copyTo(out_featureMat);
-
-	int row_nr_scale = 2;	// TODO MAKE DEFINE
-	double* Mat_row = out_featureMat.ptr<double>(row_nr_scale);
-	for(int col_iter=0; col_iter<batchsize; col_iter++)
-	{
-		Mat_row[col_iter] = siftFrames[4*(col_iter)+row_nr_scale];
-	}
+	dspsift_helperlib::get_final_output_features(allfeatureMat, siftFrames, out_featureMat, batchsize); 
 
 
-	//reshape pooledDescriptormat to 1d array
-	cv::Mat outdescrArray;
-	outdescrArray = cv::Mat(out_pooledDescriptors.t()).reshape(1,1);
-
-	//std::cout << "rows: " << outdescrArray.rows << " cols: " << outdescrArray.cols << std::endl;
-	//for(int col_iter=0; col_iter<130; col_iter++)
-	//{
-	//	std::cout << "col: " << col_iter << " value: " << outdescrArray.at<float>(0,col_iter) << std::endl;
-	//}
-
-	// TODO
-
-	float *d = (float*)outdescrArray.data;
-	// Pointer to the 0-th row
-
-	float *d_out =  (float*)calloc(outdescrArray.cols, sizeof(float));
-	uint8_t *d_char =  (uint8_t*)calloc(outdescrArray.cols, sizeof(uint8_t));
-
-	//d_out = (float*)outdescrArray.data;
-
-	// TODO: use defines here
-	const int NBO = 8;
-	const int NBP = 4;
-
-	int nel = dim_descriptor*batchsize;
-            
-	for (int i = 0; i < nel; ++i)
-	{
-		d_out[i] = d[i];
-	}
-
-	///************************ DEBUG ****************/
-	//std::cout << "D_out Input: OK" << std::endl;
-	//for(int i=128; i<138; i++)
-	//{
-	//	std::cout << i << " " << "value: " << d_out[i] << std::endl;
-	//}
-	///************************ DEBUG ****************/
-	int DEBUGCOL = 1;
-	for (int i = 0; i < batchsize; ++i)
-	{	
-		float norm = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-		//
-		///************************ DEBUG ****************/
-		//if(i==DEBUGCOL)
-		//{	
-		//	printf("After first normalization: \n");
-		//	for(int j = 0; j< 10; j++)
-		//		printf("j: %i value: %f \n", j, d_out[j]); 
-		//	std::cout << "Norm: " << norm << std::endl;
-		//}
-		///************************ DEBUG ****************/
-
-		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-		{
-			if (d_out[bin] > 0.0667f)
-				d_out[bin] = 0.0667f;
-			
-			///************************ DEBUG ****************/
-			//if(i==DEBUGCOL && bin<10)
-			//	printf("bin: %i value: %f \n", bin, d_out[bin]);
-			///************************ DEBUG ****************/
-		}
-		
-		float norm2 = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
-		
-		///************************ DEBUG ****************/
-		//if(i==DEBUGCOL)
-		//{	
-		//	printf("After 2nd normalization: \n");
-		//	for(int j = 0; j< 10; j++)
-		//		printf("j: %i value: %f \n", j, d_out[j]); 
-		//	printf("Norm: %f\n",norm2);
-		//}
-		///************************ DEBUG ****************/
-
-		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
-		{
-			float x = 512.0F * d_out[bin];
-			x = (x < 255.0F) ? x : 255.0F;
-			d_char[bin] = (uint8_t)x;
-			
-			///************************ DEBUG ****************/
-			//if(i==DEBUGCOL && bin<10)
-			//	printf("x: %f \t d_out: %f \t d_char: %f \n", x, d_out[bin], (float)d_char[bin]);
-			///************************ DEBUG ****************/
-		}
-		d_out += dim_descriptor;
-		d_char += dim_descriptor;
-	}
-
-	// set pointer back to first element
-	d_out = d_out -  batchsize*dim_descriptor;
-	d_char = d_char - batchsize*dim_descriptor;
-
-	///************************ DEBUG ****************/
-	//std::cout << "D_char Output 1st col: OK?" << std::endl;
-	//for(int i=0; i<10; i++)
-	//{
-	//	printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
-	//}
-	//d_out += dim_descriptor;
-	//d_char += dim_descriptor;
-	//printf("\n 2nd col: OK?\n");
-	//for(int i=0; i<10; i++)
-	//{
-	//	printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
-	//}
-	//d_out -= dim_descriptor;
-	//d_char -= dim_descriptor;
-	///************************ DEBUG ****************/
-
-
-	// todo
-	// fill out_pooledandnormalizedDescriptorMat (8 bit unsigned char)
 	cv::Mat out_pn_DescriptorMat;
-	out_pn_DescriptorMat = cv::Mat::zeros(dim_descriptor, batchsize, CV_8UC1);	// 128x(ns*nf) float matrix
-	for(int row_iter=0; row_iter<out_pn_DescriptorMat.rows; row_iter++)
-	{
-		uint8_t* Mat_row = out_pn_DescriptorMat.ptr<uint8_t>(row_iter);
-		for(int col_iter=0; col_iter<out_pn_DescriptorMat.cols; col_iter++)
-		{		
-			Mat_row[col_iter] = d_char[dim_descriptor*col_iter+row_iter];
-		}
-	}
-	
+	dspsift_helperlib::get_normalized_descriptors(pooledDescriptors, out_pn_DescriptorMat, batchsize);
+
 	c.stop();
 	o_dsptimes.time_normalizehist = c.get_microseconds();
 
-	//cv::imwrite( "C:/Users/Julian/Pictures/descritors.png", out_pn_DescriptorMat );
+	// write feature matrix to text file
+	const char* filename = "C:/Users/Julian/Pictures/featrs.txt";
+	writeMatToFile(out_featureMat,filename);
+	// write descriptor matrix to image file
+	cv::imwrite("C:/Users/Julian/Pictures/descriptors_l.png", out_pn_DescriptorMat);
 	
 	
 	/////************************ DEBUG ****************/
@@ -293,20 +117,21 @@ void dspsift_helperlib::dsp_sift(IplImage* i_image,
 	//}
 	/////************************ DEBUG ****************/
 
-	//for(int i=0; i<out_featureMat.cols; i++)
-	//{	
- //       cvCircle(i_image,																// image
-	//			 cvPoint((int)out_featureMat.at<double>(0,i), (int)out_featureMat.at<double>(1,i)),			// center (x,y)
-	//			 (int)out_featureMat.at<double>(2,i),												// radius
-	//			 cvScalar(255, 0, 0, 0),												// colour
-	//			 1,																		// thickness
-	//			 8,																		// linetype
-	//			 0);																	// shift
- //   }
-	//cvShowImage("Final DSP-Sift Features", i_image);
-	//cvSaveImage("C:/Users/Julian/Pictures/dsp_sift_final_descriptors.png" ,i_image);
+	for(int i=0; i<out_featureMat.cols; i++)
+	{	
+        cvCircle(i_image,																					// image
+				 cvPoint((int)out_featureMat.at<double>(0,i), (int)out_featureMat.at<double>(1,i)),			// center (x,y)
+				 (int)out_featureMat.at<double>(2,i),														// radius
+				 cvScalar(255, 0, 0, 0),																	// colour
+				 1,																							// thickness
+				 8,																							// linetype
+				 0);																						// shift
+    }
+	cvShowImage("Final DSP-Sift Features", i_image);
+	cvSaveImage("C:/Users/Julian/Pictures/dsp_sift_final_descriptors.png" ,i_image);
 
 	//--------------------------------------------- clean up and return ---------------------------------------------//
+	
 	*o_nframes = out_featureMat.cols;
 	o_descr = out_pn_DescriptorMat;
 	o_features = out_featureMat;
@@ -433,16 +258,16 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 
 	// show image
 	// draw each feature region as a circle
-    for(int i=0; i<num_sampledframes; i++)
-	{	
-        cvCircle(i_image,																// image
-				 cvPoint((int)all_output_frames[0+i*4], (int)all_output_frames[1+i*4]),			// center (x,y)
-				 (int)all_output_frames[2+i*4],												// radius
-				 cvScalar(255, 0, 0, 0),												// colour
-				 1,																		// thickness
-				 8,																		// linetype
-				 0);																	// shift
-    }
+ //   for(int i=0; i<num_sampledframes; i++)
+	//{	
+ //       cvCircle(i_image,																// image
+	//			 cvPoint((int)all_output_frames[0+i*4], (int)all_output_frames[1+i*4]),			// center (x,y)
+	//			 (int)all_output_frames[2+i*4],												// radius
+	//			 cvScalar(255, 0, 0, 0),												// colour
+	//			 1,																		// thickness
+	//			 8,																		// linetype
+	//			 0);																	// shift
+ //   }
 	// draw input sift features in black -- not possible in this function anymore
 	//for(int i=0; i<nframes; i++)
 	//{
@@ -454,7 +279,7 @@ void dspsift_helperlib::get_all_descriptors(IplImage* i_image,
 	//			 8,																	// linetype
 	//			 0);																// shift
  //   }
-    cvShowImage("Sampled Features", i_image);
+    //cvShowImage("Sampled Features", i_image);
 	//cvSaveImage("C:/Users/Julian/Pictures/dsp_sift_descriptors.png" ,i_image);
 	
 	memcpy(all_descr, all_output_desc, 128*num_sampledframes*sizeof(float));
@@ -679,6 +504,137 @@ void dspsift_helperlib::sorttest()
 	std::cout << "\n" << " =========== sortTest() end ========== " << std::endl;
 
 }
+
+void dspsift_helperlib::get_final_output_features(cv::Mat &i_alldspfeatures, double *i_siftframes, cv::Mat &o_finalfeatureMat, int batchsize)
+{
+	cv::Mat firstbatch;
+	firstbatch = i_alldspfeatures.colRange(0,batchsize).rowRange(0,i_alldspfeatures.rows);	// 4 x batchsize
+	firstbatch.copyTo(o_finalfeatureMat);
+
+	double* Mat_row = o_finalfeatureMat.ptr<double>(INDEX_FEATURES_SCALE);
+	for(int col_iter=0; col_iter<batchsize; col_iter++)
+	{
+		Mat_row[col_iter] = i_siftframes[4*(col_iter)+INDEX_FEATURES_SCALE];
+	}
+	return;
+}
+
+void dspsift_helperlib::get_normalized_descriptors(cv::Mat &i_pooledDescriptors, cv::Mat &out_pn_DescriptorMat, int batchsize)
+{
+	//reshape pooledDescriptormat to 1d array
+	cv::Mat descr1DArray;
+	descr1DArray = cv::Mat(i_pooledDescriptors.t()).reshape(1,1);
+
+	float *d = (float*)descr1DArray.data;
+	float *d_out =  (float*)calloc(descr1DArray.cols, sizeof(float));
+	uint8_t *d_char =  (uint8_t*)calloc(descr1DArray.cols, sizeof(uint8_t));
+
+	//d_out = (float*)outdescrArray.data;
+
+	int nel = DIM_DESCRIPTOR*batchsize;
+            
+	for (int i = 0; i < nel; ++i)
+	{
+		d_out[i] = d[i];
+	}
+
+	///************************ DEBUG ****************/
+	//std::cout << "D_out Input: OK" << std::endl;
+	//for(int i=128; i<138; i++)
+	//{
+	//	std::cout << i << " " << "value: " << d_out[i] << std::endl;
+	//}
+	///************************ DEBUG ****************/
+	//int DEBUGCOL = 1;
+	for (int i = 0; i < batchsize; ++i)
+	{	
+		float norm = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		//
+		///************************ DEBUG ****************/
+		//if(i==DEBUGCOL)
+		//{	
+		//	printf("After first normalization: \n");
+		//	for(int j = 0; j< 10; j++)
+		//		printf("j: %i value: %f \n", j, d_out[j]); 
+		//	std::cout << "Norm: " << norm << std::endl;
+		//}
+		///************************ DEBUG ****************/
+
+		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+		{
+			if (d_out[bin] > 0.0667f)
+				d_out[bin] = 0.0667f;
+			
+			///************************ DEBUG ****************/
+			//if(i==DEBUGCOL && bin<10)
+			//	printf("bin: %i value: %f \n", bin, d_out[bin]);
+			///************************ DEBUG ****************/
+		}
+		
+		float norm2 = dspsift_helperlib::normalize_histogram(d_out, d_out + NBO*NBP*NBP);
+		
+		///************************ DEBUG ****************/
+		//if(i==DEBUGCOL)
+		//{	
+		//	printf("After 2nd normalization: \n");
+		//	for(int j = 0; j< 10; j++)
+		//		printf("j: %i value: %f \n", j, d_out[j]); 
+		//	printf("Norm: %f\n",norm2);
+		//}
+		///************************ DEBUG ****************/
+
+		for (int bin = 0; bin < NBO*NBP*NBP; ++bin)
+		{
+			float x = 512.0F * d_out[bin];
+			x = (x < 255.0F) ? x : 255.0F;
+			d_char[bin] = (uint8_t)x;
+			
+			///************************ DEBUG ****************/
+			//if(i==DEBUGCOL && bin<10)
+			//	printf("x: %f \t d_out: %f \t d_char: %f \n", x, d_out[bin], (float)d_char[bin]);
+			///************************ DEBUG ****************/
+		}
+		d_out += DIM_DESCRIPTOR;
+		d_char += DIM_DESCRIPTOR;
+	}
+
+	// set pointer back to first element
+	d_out = d_out -  batchsize*DIM_DESCRIPTOR;
+	d_char = d_char - batchsize*DIM_DESCRIPTOR;
+
+	///************************ DEBUG ****************/
+	//std::cout << "D_char Output 1st col: OK?" << std::endl;
+	//for(int i=0; i<10; i++)
+	//{
+	//	printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
+	//}
+	//d_out += DIM_DESCRIPTOR;
+	//d_char += DIM_DESCRIPTOR;
+	//printf("\n 2nd col: OK?\n");
+	//for(int i=0; i<10; i++)
+	//{
+	//	printf("i: %i \t d_out: %f \t d_char: %f \n", i, d_out[i], (float)d_char[i]); 
+	//}
+	//d_out -= DIM_DESCRIPTOR;
+	//d_char -= DIM_DESCRIPTOR;
+	///************************ DEBUG ****************/
+
+	// fill out_pooled_and_normalized_DescriptorMat (8 bit unsigned char)
+	//cv::Mat out_pn_DescriptorMat;
+	out_pn_DescriptorMat = cv::Mat::zeros(DIM_DESCRIPTOR, batchsize, CV_8UC1);	// 128x(ns*nf) float matrix
+	for(int row_iter=0; row_iter<out_pn_DescriptorMat.rows; row_iter++)
+	{
+		uint8_t* Mat_row = out_pn_DescriptorMat.ptr<uint8_t>(row_iter);
+		for(int col_iter=0; col_iter<out_pn_DescriptorMat.cols; col_iter++)
+		{		
+			Mat_row[col_iter] = d_char[DIM_DESCRIPTOR*col_iter+row_iter];
+		}
+	}
+
+	return;
+}
+
+
 
 static inline float dspsift_helperlib::normalize_histogram(float* begin, float* end)
 {

@@ -20,6 +20,13 @@
 #include <stdint.h>
 #include <fstream>
 
+/************************************************** Defines *********************************************************/
+
+#define INDEX_FEATURES_SCALE 2
+#define NBO 8
+#define NBP 4
+#define DIM_DESCRIPTOR 128
+
 /************************************************** Structures *******************************************************/
 
 
@@ -146,8 +153,28 @@ namespace dspsift_helperlib
 	// Debug methods
 	void sorttest();
 
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Gets the final output features from the big feature matrix
+	**	Copies the scales from the input frames to the output scales of the feature
+	** @param i_alldspfeatures input matrix of all dsp features (type double)
+	** @param i_siftframes input pointer to double array containing the input frames to dsp
+	** @param o_finalfeatureMat output matrix of features (type double)
+	** @param batchsize size of the first feature batch/ size of i_siftframes
+	** 
+	**/
+	void get_final_output_features(cv::Mat &i_alldspfeatures, double *i_siftframes, cv::Mat &o_finalfeatureMat, int batchsize); 
 
-
+	/** ------------------------------------------------------------------
+	** @internal
+	** @brief Gets the final normalized output descriptors
+	**
+	** @param i_pooledDescriptors input matrix of the pooled descriptors (type float32)
+	** @param out_pn_DescriptorMat output matrix of descriptors (pooled and normalized) (type uint8)
+	** @param batchsize size of one feature batch
+	** 
+	**/
+	void get_normalized_descriptors(cv::Mat &i_pooledDescriptors, cv::Mat &out_pn_DescriptorMat, int batchsize);
 
 		/** ------------------------------------------------------------------
 	** @internal
