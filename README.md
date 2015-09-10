@@ -31,9 +31,9 @@ Contains functions to implement the [dsp sift](http://vision.ucla.edu/~jingming/
  `pool_descriptors`   
  `s_sort_4rowf64_matrixcolsbyindices`   
  `sort_genericf32_matrixcolsbyindices`   
- `dmat_to_darray`
- `get_final_output_features`
- `get_normalized_descriptors`
+ `dmat_to_darray`   
+ `get_final_output_features`   
+ `get_normalized_descriptors`   
  `normalize_histogram`
 
 
