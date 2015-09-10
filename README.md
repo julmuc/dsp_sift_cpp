@@ -8,7 +8,6 @@ The project contains an implementation in c++ of the domain-size pooling sift al
 
 [VLFeat Setup VS2010](http://www.vlfeat.org/vsexpress.html)
 
-
 ###Content
 ![Flowchart](https://cdn.pbrd.co/images/sNj45Vx.png)
 
@@ -20,7 +19,6 @@ Contains functions to implement the [vl_sift](http://www.vlfeat.org/api/sift.htm
  `transpose_descriptor`   
  `korder`   
  `check_sorted`   
-
 
 * **DSPSift Helperlib**
 Contains functions to implement the [dsp sift](http://vision.ucla.edu/~jingming/proj/dsp/) algorithm
@@ -35,7 +33,6 @@ Contains functions to implement the [dsp sift](http://vision.ucla.edu/~jingming/
  `get_final_output_features`   
  `get_normalized_descriptors`   
  `normalize_histogram`
-
 
 ###References
 * [J. Dong and S. Soatto. Domain-Size Pooling in Local Descriptors: DSP-SIFT. In _Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition_ (CVPR), 2015](http://vision.ucla.edu/~jingming/proj/dsp/)
