@@ -8,6 +8,10 @@ The project contains an implementation in c++ of the domain-size pooling sift al
 
 [VLFeat Setup VS2010](http://www.vlfeat.org/vsexpress.html)
 
+[STLSoft](http://www.stlsoft.org/index.html) [temporarily used for timing]
+
+
+
 ###Content
 ![Flowchart](https://cdn.pbrd.co/images/sNj45Vx.png)
 
@@ -40,3 +44,5 @@ Contains functions to implement the [dsp sift](http://vision.ucla.edu/~jingming/
 * [VLFeat](http://www.vlfeat.org/index.html)
 
 * [OpenCV](http://opencv.org/)
+
+* [STLSoft](http://www.stlsoft.org/index.html) [temporarily used for timing]
